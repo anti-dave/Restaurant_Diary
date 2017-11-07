@@ -38,7 +38,8 @@ public class RestaurantDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Create a String that contains the SQL statement to create the restaurants table
-        String SQL_CREATE_RESTAURANTS_TABLE =  "CREATE TABLE " + RestaurantContract.RestaurantEntry.TABLE_NAME + " ("
+        String SQL_CREATE_RESTAURANTS_TABLE =  "CREATE TABLE " +
+                RestaurantContract.RestaurantEntry.TABLE_NAME + " ("
                 + RestaurantContract.RestaurantEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + RestaurantEntry.COLUMN_RESTAURANT_NAME + " TEXT NOT NULL, "
                 + RestaurantEntry.COLUMN_RESTAURANT_ADDRESS + " TEXT , "
