@@ -8,5 +8,9 @@ public class Restaurant {
     private String mName;
     // rest of the private stuff
 
-    public Restaurant(){}
+    public Restaurant(String name){
+        mName = name;
+    }
+
+    public String getName(){ return mName; }
 }
