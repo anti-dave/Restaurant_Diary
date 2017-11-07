@@ -1,4 +1,4 @@
-package com.example.jake.restaurantdiary;
+package com.example.android.restaurantdiary;
 
 import org.junit.Test;
 
