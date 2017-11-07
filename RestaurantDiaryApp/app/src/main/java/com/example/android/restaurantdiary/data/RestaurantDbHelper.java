@@ -43,7 +43,7 @@ public class RestaurantDbHelper extends SQLiteOpenHelper {
                 + RestaurantContract.RestaurantEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + RestaurantEntry.COLUMN_RESTAURANT_NAME + " TEXT NOT NULL, "
                 + RestaurantEntry.COLUMN_RESTAURANT_ADDRESS + " TEXT , "
-                + RestaurantEntry.COLUMN_RESTAURANT_REVIEW + " TEXT , "
+                + RestaurantEntry.COLUMN_RESTAURANT_NOTE + " TEXT , "
                 + RestaurantEntry.COLUMN_RESTAURANT_IMAGE + " TEXT ); ";
 
         // Execute the SQL statement

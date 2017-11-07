@@ -81,11 +81,11 @@ public final class RestaurantContract {
         public final static String COLUMN_RESTAURANT_ADDRESS = "address";
 
         /**
-         * Review for the restaurant.
+         * Note for the restaurant.
          *
          * Type: TEXT
          */
-        public final static String COLUMN_RESTAURANT_REVIEW = "review";
+        public final static String COLUMN_RESTAURANT_NOTE = "note";
 
         /**
          * Main image for the restaurant.
