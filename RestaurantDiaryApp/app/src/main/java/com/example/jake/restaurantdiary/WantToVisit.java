@@ -11,3 +11,5 @@ public class WantToVisit extends AppCompatActivity {
         setContentView(R.layout.activity_want_to_visit);
     }
 }
+
+// This is a test to makes sure I can push to the master branch - Nate
