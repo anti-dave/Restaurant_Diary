@@ -15,7 +15,7 @@ public class RestaurantDbHelper extends SQLiteOpenHelper {
     public static final String LOG_TAG = RestaurantDbHelper.class.getSimpleName();
 
     /** Name of the database file */
-    private static final String DATABASE_NAME = "restaurantdiary.db";
+    private static final String DATABASE_NAME = "restaurants.db";
 
     /**
      * Database version. If you change the database schema, you must increment the database version.
