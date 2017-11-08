@@ -30,7 +30,7 @@ public class RestaurantAdapter  extends ArrayAdapter<Restaurant> {
 
         Restaurant currentRestaurant = getItem(position);
 
-        TextView restaurantView = (TextView) listItemView.findViewById(R.id.restaurant_name);
+        TextView restaurantView = listItemView.findViewById(R.id.restaurant_name);
         restaurantView.setText(currentRestaurant.getName());
 
         /**

@@ -13,7 +13,7 @@ public class WantToVisit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_want_to_visit);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_want_to_visit);
+        FloatingActionButton fab = findViewById(R.id.fab_want_to_visit);
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
