@@ -1,4 +1,4 @@
-package com.example.jake.restaurantdiary;
+package com.example.android.restaurantdiary;
 
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;

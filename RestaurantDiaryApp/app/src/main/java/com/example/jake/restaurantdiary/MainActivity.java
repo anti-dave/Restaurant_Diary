@@ -1,4 +1,4 @@
-package com.example.jake.restaurantdiary;
+package com.example.android.restaurantdiary;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

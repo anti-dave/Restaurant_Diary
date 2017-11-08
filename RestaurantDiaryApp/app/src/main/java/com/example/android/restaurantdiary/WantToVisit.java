@@ -1,4 +1,4 @@
-package com.example.jake.restaurantdiary;
+package com.example.android.restaurantdiary;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
@@ -23,3 +23,6 @@ public class WantToVisit extends AppCompatActivity {
         });
     }
 }
+
+// This is a test to makes sure I can push to the master branch - Nate
+// yo jake here test stuff

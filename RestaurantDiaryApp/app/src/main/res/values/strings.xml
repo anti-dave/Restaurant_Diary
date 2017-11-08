@@ -1,4 +1,5 @@
 <resources>
+    <!--Name of app-->
     <string name="app_name">Restaurant Diary</string>
 
     <!-- Strings for the manifest -->
@@ -22,4 +23,6 @@
 
 
 
+    <!--Dummy data insert string used in menu-->
+    <string name="action_insert_dummy_data">Insert dummy data</string>
 </resources>

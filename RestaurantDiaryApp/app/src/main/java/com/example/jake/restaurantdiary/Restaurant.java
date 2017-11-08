@@ -1,4 +1,4 @@
-package com.example.jake.restaurantdiary;
+package com.example.android.restaurantdiary;
 
 /**
  * Created by jake on 11/2/17.
