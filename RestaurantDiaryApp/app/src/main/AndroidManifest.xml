@@ -19,6 +19,10 @@
         <activity android:name="com.example.android.restaurantdiary.WantToVisit" />
         <activity android:name="com.example.android.restaurantdiary.HasVisited" />
         <activity android:name="com.example.android.restaurantdiary.SearchActivity"></activity>
+        <provider
+            android:name="com.example.android.restaurantdiary.data.RestaurantProvider"
+            android:authorities="com.example.android.restaurantdiary"
+            android:exported="false" />
     </application>
 
 </manifest>

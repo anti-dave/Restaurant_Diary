@@ -44,7 +44,7 @@ public class RestaurantDbHelper extends SQLiteOpenHelper {
                 + RestaurantEntry.COLUMN_RESTAURANT_NAME + " TEXT NOT NULL, "
                 + RestaurantEntry.COLUMN_RESTAURANT_ADDRESS + " TEXT , "
                 + RestaurantEntry.COLUMN_RESTAURANT_NOTE + " TEXT , "
-                + RestaurantEntry.COLUMN_RESTAURANT_IMAGE + " TEXT ); ";
+                + RestaurantEntry.COLUMN_RESTAURANT_IMAGE + " BLOB ); ";
 
         // Execute the SQL statement
         db.execSQL(SQL_CREATE_RESTAURANTS_TABLE);
