@@ -137,7 +137,7 @@ public class HasVisited extends AppCompatActivity implements LoaderManager.Loade
         values.put(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_NAME, "Jakes Pizza Shack");
         values.put(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_ADDRESS, "101 Moonbase, Moon");
         values.put(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_NOTE, "It was too good I died");
-        //values.put(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_IMAGE, dummyImageInBytes);
+        values.put(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_IMAGE, dummyImageInBytes);
         Uri newUri = getContentResolver().insert(RestaurantContract.RestaurantEntry.CONTENT_URI, values);
         Log.d(LOG_TAG, "Successfully inserted dummy data.");
     }
