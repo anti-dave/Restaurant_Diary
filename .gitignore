@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #built application files
 *.apk
 *.ap_
@@ -39,3 +40,7 @@ output.json #Since Android Studio 3.0
 #NDK
 obj/
 .externalNativeBuild
+=======
+
+RestaurantDiaryApp/.idea/misc.xml
+>>>>>>> jake
