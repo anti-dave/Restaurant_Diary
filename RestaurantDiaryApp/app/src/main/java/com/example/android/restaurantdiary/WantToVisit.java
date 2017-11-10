@@ -17,7 +17,7 @@ public class WantToVisit extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(WantToVisit.this, ActivityForm.class);
+                Intent intent = new Intent(WantToVisit.this, FormVisitedActivity.class);
                 startActivity(intent);
             }
         });

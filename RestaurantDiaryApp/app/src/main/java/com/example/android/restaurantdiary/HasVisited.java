@@ -3,6 +3,7 @@ package com.example.android.restaurantdiary;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -56,7 +57,8 @@ public class HasVisited extends AppCompatActivity implements LoaderManager.Loade
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // do something for now, probably add a generic restaurant to the listview
+                Intent formIntent = new Intent(HasVisited.this, FormVisitedActivity.class);
+                startActivity(formIntent);
             }
         });
 

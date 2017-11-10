@@ -6,6 +6,7 @@
     <string name="activity_want_to_visit">Want to Visit</string>
     <string name="activity_visited">Visited</string>
     <string name="activity_search">Find a new place</string>
+    <string name="activity_form">Add a new Restaurant</string>
 
     <!-- Strings for activity_main -->
     <string name="main_menu_been">Have Been to</string>
@@ -18,10 +19,16 @@
 
 
     <!-- Strings for activity_search -->
-    <string name="search_activity_user_input">Enter find a new place to eat</string>
+    <string name="search_activity_user_input">Enter to find a new place to eat</string>
 
-
-
+    <!-- Strings for the Form activities -->
+    <string name="form_name">Name</string>
+    <string name="form_address">Address</string>
+    <string name="form_note">Note</string>
+    <string name="form_button_save">Save</string>
+    <string name="form_hint_name">Restaurant Name</string>
+    <string name="form_hint_address">Street Address</string>
+    <string name="form_hint_note">Begin judgment here! Do not worry, no one else can read this.</string>
 
     <!--Dummy data insert string used in menu-->
     <string name="action_insert_dummy_data">Insert dummy data</string>
