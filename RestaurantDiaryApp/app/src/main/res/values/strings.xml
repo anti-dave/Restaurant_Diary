@@ -32,4 +32,8 @@
 
     <!--Dummy data insert string used in menu-->
     <string name="action_insert_dummy_data">Insert dummy data</string>
+
+    <!-- String when there is no image in the database used in CursoryAdapter -->
+    <string name="no_available_image">No Available Image Touch to Take One</string>
+    <string name="empty_view_subtitle_text">You have not visited any restaurants yet!</string>
 </resources>

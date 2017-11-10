@@ -2,9 +2,20 @@ package com.example.android.restaurantdiary;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.example.android.restaurantdiary.data.RestaurantContract;
+
+import java.io.ByteArrayInputStream;
+import java.sql.Blob;
 
 /**
  * Created by jake on 11/8/17.
@@ -33,14 +44,8 @@ public class VisitedRestaurantCursoryAdapter extends CursorAdapter {
      */
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        /**TODO
-         * once gui is merged uncomment point to layout might have to change
-         * @para R.layout.list_item
-         *
-        // Inflate a list item view using the layout specified in list_item.xml
-        return LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
-         */
-        return null;
+        // Inflate a list item view using the layout specified in restaurant_list_item.xml
+        return LayoutInflater.from(context).inflate(R.layout.restaurant_list_item, parent, false);
     }
 
     /**
@@ -55,7 +60,40 @@ public class VisitedRestaurantCursoryAdapter extends CursorAdapter {
      */
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        // TODO this is waiting on gui
+        // Find individual views that we want to modify in the list item layout
+        TextView nameTextView = (TextView) view.findViewById(R.id.restaurant_name);
+        TextView addressTextView = (TextView) view.findViewById(R.id.restaurant_address);
+        TextView notesTextView = (TextView) view.findViewById(R.id.restaurant_notes);
+        ImageView pictureImageView = (ImageView) view.findViewById(R.id.restaurant_image);
+        TextView noPicTextView = (TextView) view.findViewById(R.id.restaurant_no_picture);
+
+        // Find the columns of item attributes that we're interested in
+        int nameColumnIndex = cursor.getColumnIndex(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_NAME);
+        int addressColumnIndex = cursor.getColumnIndex(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_ADDRESS);
+        int notesColumnIndex = cursor.getColumnIndex(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_NOTE);
+        int pictureColumnIndex = cursor.getColumnIndex(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_IMAGE);
+
+        // Read the item attributes from the Cursor for the current item
+        String itemName = cursor.getString(nameColumnIndex);
+        String itemAddress = cursor.getString(addressColumnIndex);
+        String itemNotes = cursor.getString(notesColumnIndex);
+        byte[] itemImage = cursor.getBlob(pictureColumnIndex);
+
+        // Update the TextViews with the attributes for the current item
+        nameTextView.setText(itemName);
+        addressTextView.setText(itemAddress);
+        notesTextView.setText(itemNotes);
+
+        // If the item breed is empty string or null, then use some default text
+        // that says "No Image touch to take one", so the TextView isn't blank.
+        if (itemImage == null) {
+            noPicTextView.setText(R.string.no_available_image);
+        }else {
+            ByteArrayInputStream imageStream = new ByteArrayInputStream(itemImage);
+            Bitmap bitmap= BitmapFactory.decodeStream(imageStream);
+            pictureImageView.setImageBitmap(bitmap);
+        }
+
         return;
     }
 }

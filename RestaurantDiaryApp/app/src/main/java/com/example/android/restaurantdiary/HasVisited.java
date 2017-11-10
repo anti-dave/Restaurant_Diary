@@ -1,6 +1,7 @@
 package com.example.android.restaurantdiary;
 
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,25 +30,17 @@ public class HasVisited extends AppCompatActivity implements LoaderManager.Loade
     /** Logger tag */
     public static final String LOG_TAG = HasVisited.class.getSimpleName();
 
-    private RestaurantAdapter mAdapter;
+    private VisitedRestaurantCursoryAdapter mCursorAdapter;
     private TextView mEmptyStateTextView;
+
+    private static final int RESTAURANT_LOADER = 0;
+    private boolean mRestaurantHasChanged = false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_has_visited);
-
-        ListView RestaurantListView = findViewById(R.id.list_visited);
-
-        mEmptyStateTextView = findViewById(R.id.empty_view_visited);
-        RestaurantListView.setEmptyView(mEmptyStateTextView);
-
-        mAdapter = new RestaurantAdapter(this, new ArrayList<Restaurant>());
-
-        RestaurantListView.setAdapter(mAdapter);
-
-
 
         /**
          *  Clicking this button should allow the user to add a restaurant they have visited
@@ -62,6 +56,41 @@ public class HasVisited extends AppCompatActivity implements LoaderManager.Loade
             }
         });
 
+        // Find the ListView which will be populated with the pet data
+        ListView itemListView = (ListView) findViewById(R.id.list_visited);
+
+        // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
+        View emptyView = findViewById(R.id.empty_view);
+        itemListView.setEmptyView(emptyView);
+
+        // Setup an Adapter to create a list item for each row of pet data in the Cursor.
+        // There is no pet data yet (until the loader finishes) so pass in null for the Cursor.
+        mCursorAdapter = new VisitedRestaurantCursoryAdapter(this, null);
+        itemListView.setAdapter(mCursorAdapter);
+
+        // Setup the item click listener
+        itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                // Create new intent to go to {@link EditorActivity}
+                Intent intent = new Intent(HasVisited.this, FormVisitedActivity.class);
+
+                // Form the content URI that represents the specific pet that was clicked on,
+                // by appending the "id" (passed as input to this method) onto the
+                // {@link RestaurantEntry#CONTENT_URI}.
+                Uri currentRestaurantUri =
+                        ContentUris.withAppendedId(RestaurantContract.RestaurantEntry.CONTENT_URI, id);
+
+                // Set the URI on the data field of the intent
+                intent.setData(currentRestaurantUri);
+
+                // Launch the {@link EditorActivity} to display the data for the current pet.
+                startActivity(intent);
+            }
+        });
+
+        // Kick off the loader
+        getLoaderManager().initLoader(RESTAURANT_LOADER, null, this);
 
     }
 
@@ -108,7 +137,7 @@ public class HasVisited extends AppCompatActivity implements LoaderManager.Loade
         values.put(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_NAME, "Jakes Pizza Shack");
         values.put(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_ADDRESS, "101 Moonbase, Moon");
         values.put(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_NOTE, "It was too good I died");
-        values.put(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_IMAGE, dummyImageInBytes);
+        //values.put(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_IMAGE, dummyImageInBytes);
         Uri newUri = getContentResolver().insert(RestaurantContract.RestaurantEntry.CONTENT_URI, values);
         Log.d(LOG_TAG, "Successfully inserted dummy data.");
     }
@@ -142,7 +171,8 @@ public class HasVisited extends AppCompatActivity implements LoaderManager.Loade
      */
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
+        // Update {@link RestaurantCursorAdapter} with this new cursor containing updated pet data
+        mCursorAdapter.swapCursor(data);
     }
 
     /*
@@ -150,6 +180,7 @@ public class HasVisited extends AppCompatActivity implements LoaderManager.Loade
      */
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+        // Callback called when the data needs to be deleted
+        mCursorAdapter.swapCursor(null);
     }
 }
