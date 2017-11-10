@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class WantToVisit extends AppCompatActivity {
+public class WantToVisitActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +17,7 @@ public class WantToVisit extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(WantToVisit.this, FormVisitedActivity.class);
+                Intent intent = new Intent(WantToVisitActivity.this, FormVisitedActivity.class);
                 startActivity(intent);
             }
         });
