@@ -7,7 +7,7 @@ package com.example.android.restaurantdiary;
 public class Restaurant {
     private String mName;
     // rest of the private stuff
-
+    // yooyoyoyoyoyo this is a test
     public Restaurant(String name){
         mName = name;
     }
