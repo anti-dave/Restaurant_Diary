@@ -43,25 +43,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
         </activity>
-
-        <activity
-            android:name=".FormVisitedActivity"
-            android:label="@string/activity_form"
-            android:parentActivityName=".HasVisited" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HasVisited"/>
-        </activity>
-
-        <activity
-            android:name=".FormWantToVisitActivity"
-            android:label="@string/activity_form"
-            android:parentActivityName=".WantToVisit" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".WantToVisit"/>
-        </activity>
-
         <provider
             android:name="com.example.android.restaurantdiary.data.RestaurantProvider"
             android:authorities="com.example.android.restaurantdiary"
