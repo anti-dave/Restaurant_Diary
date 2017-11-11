@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         toVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent toVisitIntent = new Intent(MainActivity.this, WantToVisitActivity.class);
+                Intent toVisitIntent = new Intent(MainActivity.this, WantToVisit.class);
                 startActivity(toVisitIntent);
             }
         });
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         visited.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent visitedIntent = new Intent(MainActivity.this, HasVisitedActivity.class);
+                Intent visitedIntent = new Intent(MainActivity.this, HasVisited.class);
                 startActivity(visitedIntent);
             }
         });

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,20 +15,21 @@ import android.widget.TextView;
 import com.example.android.restaurantdiary.data.RestaurantContract;
 
 import java.io.ByteArrayInputStream;
+import java.sql.Blob;
 
 /**
  * Created by jake on 11/8/17.
  */
 
-public class HasVisitedCursoryAdapter extends CursorAdapter {
+public class VisitedRestaurantCursoryAdapter extends CursorAdapter {
 
     /**
-     * Constructs a new {@link HasVisitedCursoryAdapter}.
+     * Constructs a new {@link VisitedRestaurantCursoryAdapter}.
      *
      * @param context The context
      * @param c       The cursor from which to get the data.
      */
-    public HasVisitedCursoryAdapter(Context context, Cursor c){
+    public VisitedRestaurantCursoryAdapter(Context context, Cursor c){
         super(context,c, 0);
     }
 

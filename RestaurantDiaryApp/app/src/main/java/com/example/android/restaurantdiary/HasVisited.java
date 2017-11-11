@@ -23,12 +23,14 @@ import android.widget.TextView;
 
 import com.example.android.restaurantdiary.data.RestaurantContract;
 
-public class HasVisitedActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+import java.util.ArrayList;
+
+public class HasVisited extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     /** Logger tag */
-    public static final String LOG_TAG = HasVisitedActivity.class.getSimpleName();
+    public static final String LOG_TAG = HasVisited.class.getSimpleName();
 
-    private HasVisitedCursoryAdapter mCursorAdapter;
+    private VisitedRestaurantCursoryAdapter mCursorAdapter;
     private TextView mEmptyStateTextView;
 
     private static final int RESTAURANT_LOADER = 0;
@@ -49,7 +51,7 @@ public class HasVisitedActivity extends AppCompatActivity implements LoaderManag
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent formIntent = new Intent(HasVisitedActivity.this, FormVisitedActivity.class);
+                Intent formIntent = new Intent(HasVisited.this, FormVisitedActivity.class);
                 startActivity(formIntent);
             }
         });
@@ -63,7 +65,7 @@ public class HasVisitedActivity extends AppCompatActivity implements LoaderManag
 
         // Setup an Adapter to create a list item for each row of pet data in the Cursor.
         // There is no pet data yet (until the loader finishes) so pass in null for the Cursor.
-        mCursorAdapter = new HasVisitedCursoryAdapter(this, null);
+        mCursorAdapter = new VisitedRestaurantCursoryAdapter(this, null);
         itemListView.setAdapter(mCursorAdapter);
 
         // Setup the item click listener
@@ -71,7 +73,7 @@ public class HasVisitedActivity extends AppCompatActivity implements LoaderManag
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 // Create new intent to go to {@link EditorActivity}
-                Intent intent = new Intent(HasVisitedActivity.this, FormVisitedActivity.class);
+                Intent intent = new Intent(HasVisited.this, FormVisitedActivity.class);
 
                 // Form the content URI that represents the specific pet that was clicked on,
                 // by appending the "id" (passed as input to this method) onto the
