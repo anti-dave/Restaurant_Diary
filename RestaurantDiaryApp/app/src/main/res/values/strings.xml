@@ -20,6 +20,9 @@
 
     <!-- Strings for activity_search -->
     <string name="search_activity_user_input">Enter to find a new place to eat</string>
+    <string name="loading_indicator">Enter to find a new place to eat</string>
+    <string name="no_internet_connection">There\'s no internet connection</string>
+    <string name="no_restaurants">Enter to find a new place to eat</string>
 
     <!-- Strings for the Form activities -->
     <string name="form_name">Name</string>

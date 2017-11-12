@@ -159,9 +159,18 @@ public final class QueryUtils {
                 JSONObject businessListObj = businessArray.getJSONObject(i);
 
                 String title = businessListObj.getString("name");
-                String type = businessListObj.getString("categories");
-                String phone = businessListObj.getString("phone");
-                String address = businessListObj.getString("location");
+
+                //We don't actually need categories, we need title inside of alias inside of categories
+                JSONArray categories = businessListObj.getJSONArray("categories");
+                JSONObject alias = categories.getJSONObject(0);
+                String type = alias.getString("alias");
+
+                String phone = businessListObj.getString("display_phone");
+
+                //We don't actually need location, we need address inside location
+                JSONObject loc = businessListObj.getJSONObject("location");
+                String address = loc.getString("address1");
+
                 String rating = businessListObj.getString("rating");
 
                 // Create a new {@link YelpBusiness} object with the location, time,
