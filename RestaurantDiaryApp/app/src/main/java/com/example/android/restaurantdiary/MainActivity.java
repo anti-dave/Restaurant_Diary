@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         visited.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent visitedIntent = new Intent(MainActivity.this, HasVisitedActivity.class);
+                Intent visitedIntent = new Intent(MainActivity.this, VisitedActivity.class);
                 startActivity(visitedIntent);
             }
         });
