@@ -9,7 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.util.Log;
 
-import com.example.android.restaurantdiary.data.RestaurantContract.RestaurantEntry;
+import com.example.android.restaurantdiary.data.RestaurantContract.VisitedRestaurantEntry;
+import com.example.android.restaurantdiary.data.RestaurantContract.ProspectiveRestaurantEntry;
 
 /**
  * {@link ContentProvider} for restaurantdiary app.
@@ -20,11 +21,21 @@ public class RestaurantProvider extends ContentProvider {
     /** Tag for the log messages */
     public static final String LOG_TAG = RestaurantProvider.class.getSimpleName();
 
-    /** URI matcher code for the content URI for the restaurant table */
-    private static final int RESTAURANTS = 100;
+    /** URI matcher code for the content URI for the visited restaurant table */
+    private static final int VISITED_RESTAURANTS = 100;
 
-    /** URI matcher code for the content URI for a single restaurant in the restaurant table */
-    private static final int RESTAURANT_ID = 101;
+    /** URI matcher code for the content URI for a single restaurant in the visited
+     * restaurant table */
+    private static final int VISITED_RESTAURANT_ID = 101;
+
+    /** URI matcher code for the content URI for the prospective restaurant table */
+    private static final int PROSPECTIVE_RESTAURANTS = 102;
+
+    /** URI matcher code for the content URI for a single restaurant in the prospective
+     * restaurant table */
+    private static final int PROSPECTIVE_RESTAURANT_ID = 103;
+
+
 
     /**
      * UriMatcher object to match a content URI to a corresponding code.
@@ -35,12 +46,18 @@ public class RestaurantProvider extends ContentProvider {
 
     // Uri matcher initialization
     static {
-        // URI used to provide access to MULTIPLE rows of the restaurants table.
-        sUriMatcher.addURI(RestaurantContract.CONTENT_AUTHORITY, RestaurantContract.PATH_RESTAURANT,
-                RESTAURANTS);
-        // URI used to provide access to a single row of the restaurants table.
+        // URI used to provide access to MULTIPLE rows of the visited restaurants table.
         sUriMatcher.addURI(RestaurantContract.CONTENT_AUTHORITY,
-                RestaurantContract.PATH_RESTAURANT + "/#", RESTAURANT_ID);
+                RestaurantContract.PATH_VISITED_RESTAURANT, VISITED_RESTAURANTS);
+        // URI used to provide access to a single row of the visited restaurants table.
+        sUriMatcher.addURI(RestaurantContract.CONTENT_AUTHORITY,
+                RestaurantContract.PATH_VISITED_RESTAURANT + "/#", VISITED_RESTAURANT_ID);
+        // URI used to provide access to MULTIPLE rows of the prospective restaurants table.
+        sUriMatcher.addURI(RestaurantContract.CONTENT_AUTHORITY,
+                RestaurantContract.PATH_PROSPECTIVE_RESTAURANT, PROSPECTIVE_RESTAURANTS);
+        // URI used to provide access to a single row of the prospective restaurants table.
+        sUriMatcher.addURI(RestaurantContract.CONTENT_AUTHORITY,
+                RestaurantContract.PATH_PROSPECTIVE_RESTAURANT + "/#", PROSPECTIVE_RESTAURANT_ID);
     }
 
     /** Database helper object */
@@ -74,15 +91,27 @@ public class RestaurantProvider extends ContentProvider {
         Cursor cursor;
         int match = sUriMatcher.match(uri);
         switch (match) {
-            case RESTAURANTS:
-                cursor = database.query(RestaurantEntry.TABLE_NAME,
+            case VISITED_RESTAURANTS:
+                cursor = database.query(VisitedRestaurantEntry.TABLE_NAME,
                         projection, selection, selectionArgs,null, null, sortOrder);
                 break;
 
-            case RESTAURANT_ID:
-                selection = RestaurantEntry._ID + "=?";
+            case VISITED_RESTAURANT_ID:
+                selection = VisitedRestaurantEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
-                cursor = database.query(RestaurantEntry.TABLE_NAME, projection,
+                cursor = database.query(VisitedRestaurantEntry.TABLE_NAME, projection,
+                        selection, selectionArgs, null, null, sortOrder);
+                break;
+
+            case PROSPECTIVE_RESTAURANTS:
+                cursor = database.query(ProspectiveRestaurantEntry.TABLE_NAME,
+                        projection, selection, selectionArgs,null, null, sortOrder);
+                break;
+
+            case PROSPECTIVE_RESTAURANT_ID:
+                selection = VisitedRestaurantEntry._ID + "=?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                cursor = database.query(ProspectiveRestaurantEntry.TABLE_NAME, projection,
                         selection, selectionArgs, null, null, sortOrder);
                 break;
 
@@ -105,7 +134,9 @@ public class RestaurantProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues contentValues) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
-            case RESTAURANTS:
+            case VISITED_RESTAURANTS:
+                return insertRestaurant(uri, contentValues);
+            case PROSPECTIVE_RESTAURANTS:
                 return insertRestaurant(uri, contentValues);
             default:
                 throw new IllegalArgumentException("Insertion is not supported for " + uri);
@@ -120,15 +151,27 @@ public class RestaurantProvider extends ContentProvider {
      * @return Uri with the newly added ID.
      */
     private Uri insertRestaurant(Uri uri, ContentValues values) {
-        String name = values.getAsString(RestaurantEntry.COLUMN_RESTAURANT_NAME);
+        String columnName = null;
+        String tableName = null;
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case VISITED_RESTAURANTS:
+                columnName = values.getAsString(VisitedRestaurantEntry.COLUMN_RESTAURANT_NAME);
+                tableName = VisitedRestaurantEntry.TABLE_NAME;
+                break;
+            case PROSPECTIVE_RESTAURANTS:
+                columnName = values.getAsString(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NAME);
+                tableName = ProspectiveRestaurantEntry.TABLE_NAME;
+                break;
+        }
 
-        if (name == null) {
+        if (columnName == null) {
             throw new IllegalArgumentException("Restaurant requires a name");
         }
 
         SQLiteDatabase database = mDBHelper.getWritableDatabase();
 
-        long id = database.insert(RestaurantEntry.TABLE_NAME, null, values);
+        long id = database.insert(tableName, null, values);
 
         if (id == -1) {
             Log.e(LOG_TAG, "Failed to insert row for " + uri);
@@ -156,10 +199,16 @@ public class RestaurantProvider extends ContentProvider {
                       String[] selectionArgs) {
         final int match = sUriMatcher.match(uri);
         switch(match) {
-            case RESTAURANTS:
+            case VISITED_RESTAURANTS:
                 return updateRestaurant(uri, contentValues, selection, selectionArgs);
-            case RESTAURANT_ID:
-                selection = RestaurantEntry._ID + "=?";
+            case VISITED_RESTAURANT_ID:
+                selection = VisitedRestaurantEntry._ID + "=?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                return updateRestaurant(uri, contentValues, selection, selectionArgs);
+            case PROSPECTIVE_RESTAURANTS:
+                return updateRestaurant(uri, contentValues, selection, selectionArgs);
+            case PROSPECTIVE_RESTAURANT_ID:
+                selection = ProspectiveRestaurantEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
                 return updateRestaurant(uri, contentValues, selection, selectionArgs);
             default:
@@ -178,10 +227,24 @@ public class RestaurantProvider extends ContentProvider {
      */
     private int updateRestaurant(Uri uri, ContentValues values,
                                  String selection, String[] selectionArgs) {
-        if (values.containsKey(RestaurantEntry.COLUMN_RESTAURANT_NAME)) {
-            String name = values.getAsString(RestaurantEntry.COLUMN_RESTAURANT_NAME);
+        String tableName = null;
+        String columnRestaurantName = null;
+
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case VISITED_RESTAURANTS:
+                columnRestaurantName = values.getAsString(VisitedRestaurantEntry.COLUMN_RESTAURANT_NAME);
+                tableName = VisitedRestaurantEntry.TABLE_NAME;
+                break;
+            case PROSPECTIVE_RESTAURANTS:
+                columnRestaurantName = values.getAsString(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NAME);
+                tableName = ProspectiveRestaurantEntry.TABLE_NAME;
+                break;
+        }
+        if (values.containsKey(columnRestaurantName)) {
+            String name = values.getAsString(columnRestaurantName);
             if (name == null) {
-                throw new IllegalArgumentException("Restaurant requires a NAme");
+                throw new IllegalArgumentException("Restaurant requires a Name");
             }
         }
 
@@ -191,7 +254,7 @@ public class RestaurantProvider extends ContentProvider {
         }
 
         SQLiteDatabase database = mDBHelper.getWritableDatabase();
-        int rowsUpdated = database.update(RestaurantEntry.TABLE_NAME, values,
+        int rowsUpdated = database.update(tableName, values,
                 selection, selectionArgs);
 
         if (rowsUpdated != 0) {
@@ -215,14 +278,24 @@ public class RestaurantProvider extends ContentProvider {
         int rowsDeleted;
         final int match = sUriMatcher.match(uri);
         switch (match) {
-            case RESTAURANTS:
-                rowsDeleted = database.delete(RestaurantEntry.TABLE_NAME, selection, selectionArgs);
+            case VISITED_RESTAURANTS:
+                rowsDeleted = database.delete(VisitedRestaurantEntry.TABLE_NAME, selection, selectionArgs);
                 break;
 
-            case RESTAURANT_ID:
-                selection = RestaurantEntry._ID + "=?";
+            case VISITED_RESTAURANT_ID:
+                selection = VisitedRestaurantEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
-                rowsDeleted = database.delete(RestaurantEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database.delete(VisitedRestaurantEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+
+            case PROSPECTIVE_RESTAURANTS:
+                rowsDeleted = database.delete(ProspectiveRestaurantEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+
+            case PROSPECTIVE_RESTAURANT_ID:
+                selection = ProspectiveRestaurantEntry._ID + "=?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                rowsDeleted = database.delete(ProspectiveRestaurantEntry.TABLE_NAME, selection, selectionArgs);
                 break;
 
             default:
@@ -245,10 +318,14 @@ public class RestaurantProvider extends ContentProvider {
     public String getType(Uri uri) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
-            case RESTAURANTS:
-                return RestaurantEntry.CONTENT_LIST_TYPE;
-            case RESTAURANT_ID:
-                return RestaurantEntry.CONTENT_RESTAURANT_TYPE;
+            case VISITED_RESTAURANTS:
+                return VisitedRestaurantEntry.CONTENT_LIST_TYPE;
+            case VISITED_RESTAURANT_ID:
+                return VisitedRestaurantEntry.CONTENT_RESTAURANT_TYPE;
+            case PROSPECTIVE_RESTAURANTS:
+                return ProspectiveRestaurantEntry.CONTENT_LIST_TYPE;
+            case PROSPECTIVE_RESTAURANT_ID:
+                return ProspectiveRestaurantEntry.CONTENT_RESTAURANT_TYPE;
             default:
                 throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
         }
