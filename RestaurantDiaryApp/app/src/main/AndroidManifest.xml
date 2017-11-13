@@ -27,7 +27,7 @@
         </activity>
 
         <activity
-            android:name=".HasVisitedActivity"
+            android:name=".VisitedActivity"
             android:label="@string/activity_visited"
             android:parentActivityName=".MainActivity" >
             <meta-data
@@ -47,10 +47,10 @@
         <activity
             android:name=".FormVisitedActivity"
             android:label="@string/activity_form"
-            android:parentActivityName=".HasVisitedActivity" >
+            android:parentActivityName=".VisitedActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HasVisitedActivity"/>
+                android:value=".VisitedActivity"/>
         </activity>
 
         <activity

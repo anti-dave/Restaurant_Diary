@@ -16,15 +16,15 @@ import com.example.android.restaurantdiary.data.RestaurantContract.RestaurantEnt
  * Created by jake on 11/8/17.
  */
 
-public class HasVisitedCursoryAdapter extends CursorAdapter {
+public class VisitedCursoryAdapter extends CursorAdapter {
 
     /**
-     * Constructs a new {@link HasVisitedCursoryAdapter}.
+     * Constructs a new {@link VisitedCursoryAdapter}.
      *
      * @param context The context
      * @param c       The cursor from which to get the data.
      */
-    public HasVisitedCursoryAdapter(Context context, Cursor c){
+    public VisitedCursoryAdapter(Context context, Cursor c){
         super(context,c, 0);
     }
 
