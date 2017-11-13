@@ -3,7 +3,6 @@ package com.example.android.restaurantdiary;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +10,7 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.android.restaurantdiary.data.RestaurantContract;
-
-import java.io.ByteArrayInputStream;
+import com.example.android.restaurantdiary.data.RestaurantContract.RestaurantEntry;
 
 /**
  * Created by jake on 11/8/17.
@@ -66,10 +63,10 @@ public class HasVisitedCursoryAdapter extends CursorAdapter {
         TextView noPicTextView = (TextView) view.findViewById(R.id.restaurant_no_picture);
 
         // Find the columns of item attributes that we're interested in
-        int nameColumnIndex = cursor.getColumnIndex(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_NAME);
-        int addressColumnIndex = cursor.getColumnIndex(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_ADDRESS);
-        int notesColumnIndex = cursor.getColumnIndex(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_NOTE);
-        int pictureColumnIndex = cursor.getColumnIndex(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_IMAGE);
+        int nameColumnIndex = cursor.getColumnIndex(RestaurantEntry.COLUMN_RESTAURANT_NAME);
+        int addressColumnIndex = cursor.getColumnIndex(RestaurantEntry.COLUMN_RESTAURANT_ADDRESS);
+        int notesColumnIndex = cursor.getColumnIndex(RestaurantEntry.COLUMN_RESTAURANT_NOTE);
+        int pictureColumnIndex = cursor.getColumnIndex(RestaurantEntry.COLUMN_RESTAURANT_IMAGE);
 
         // Read the item attributes from the Cursor for the current item
         String itemName = cursor.getString(nameColumnIndex);
@@ -87,9 +84,8 @@ public class HasVisitedCursoryAdapter extends CursorAdapter {
         if (itemImage == null) {
             noPicTextView.setText(R.string.no_available_image);
         }else {
-            ByteArrayInputStream imageStream = new ByteArrayInputStream(itemImage);
-            Bitmap bitmap= BitmapFactory.decodeStream(imageStream);
-            pictureImageView.setImageBitmap(bitmap);
+            Bitmap decodedImageBitmap = ImageUtils.getImage(itemImage);
+            pictureImageView.setImageBitmap(decodedImageBitmap);
         }
 
         return;
