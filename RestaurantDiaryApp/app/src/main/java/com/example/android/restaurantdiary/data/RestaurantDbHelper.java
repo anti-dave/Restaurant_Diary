@@ -4,7 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.android.restaurantdiary.data.RestaurantContract.RestaurantEntry;
+import com.example.android.restaurantdiary.data.RestaurantContract.VisitedRestaurantEntry;
+import com.example.android.restaurantdiary.data.RestaurantContract.ProspectiveRestaurantEntry;
 
 /**
  * Database helper for the restaurantdiary app. Manages database creation and version management.
@@ -38,17 +39,30 @@ public class RestaurantDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Create a String that contains the SQL statement to create the restaurants table
-        String SQL_CREATE_RESTAURANTS_TABLE =  "CREATE TABLE " +
-                RestaurantEntry.TABLE_NAME + " ("
-                + RestaurantEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + RestaurantEntry.COLUMN_RESTAURANT_NAME + " TEXT NOT NULL, "
-                + RestaurantEntry.COLUMN_RESTAURANT_ADDRESS + " TEXT , "
-                + RestaurantEntry.COLUMN_RESTAURANT_PHONE + " TEXT , "
-                + RestaurantEntry.COLUMN_RESTAURANT_NOTE + " TEXT , "
-                + RestaurantEntry.COLUMN_RESTAURANT_IMAGE + " BLOB ); ";
+        String SQL_CREATE_VISITED_RESTAURANTS_TABLE =  "CREATE TABLE " +
+                VisitedRestaurantEntry.TABLE_NAME + " ("
+                + VisitedRestaurantEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + VisitedRestaurantEntry.COLUMN_RESTAURANT_NAME + " TEXT NOT NULL, "
+                + VisitedRestaurantEntry.COLUMN_RESTAURANT_ADDRESS + " TEXT , "
+                + VisitedRestaurantEntry.COLUMN_RESTAURANT_PHONE + " TEXT , "
+                + VisitedRestaurantEntry.COLUMN_RESTAURANT_NOTE + " TEXT , "
+                + VisitedRestaurantEntry.COLUMN_RESTAURANT_IMAGE + " BLOB ); ";
 
         // Execute the SQL statement
-        db.execSQL(SQL_CREATE_RESTAURANTS_TABLE);
+        db.execSQL(SQL_CREATE_VISITED_RESTAURANTS_TABLE);
+
+        // Create a String that contains the SQL statement to create the restaurants table
+        String SQL_CREATE_PROSPECTIVE_RESTAURANTS_TABLE =  "CREATE TABLE " +
+                ProspectiveRestaurantEntry.TABLE_NAME + " ("
+                + ProspectiveRestaurantEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NAME + " TEXT NOT NULL, "
+                + ProspectiveRestaurantEntry.COLUMN_RESTAURANT_ADDRESS + " TEXT , "
+                + ProspectiveRestaurantEntry.COLUMN_RESTAURANT_PHONE + " TEXT , "
+                + ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NOTE + " TEXT , "
+                + ProspectiveRestaurantEntry.COLUMN_RESTAURANT_IMAGE + " BLOB ); ";
+
+        // Execute the SQL statement
+        db.execSQL(SQL_CREATE_PROSPECTIVE_RESTAURANTS_TABLE);
     }
 
     /**

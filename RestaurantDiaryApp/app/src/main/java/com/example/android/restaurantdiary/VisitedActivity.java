@@ -21,7 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.android.restaurantdiary.data.RestaurantContract.RestaurantEntry;
+import com.example.android.restaurantdiary.data.RestaurantContract.VisitedRestaurantEntry;
 
 public class VisitedActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -75,9 +75,9 @@ public class VisitedActivity extends AppCompatActivity implements LoaderManager.
 
                 // Form the content URI that represents the specific pet that was clicked on,
                 // by appending the "id" (passed as input to this method) onto the
-                // {@link RestaurantEntry#CONTENT_URI}.
+                // {@link VisitedRestaurantEntry#CONTENT_URI}.
                 Uri currentRestaurantUri =
-                        ContentUris.withAppendedId(RestaurantEntry.CONTENT_URI, id);
+                        ContentUris.withAppendedId(VisitedRestaurantEntry.CONTENT_URI, id);
 
                 // Set the URI on the data field of the intent
                 intent.setData(currentRestaurantUri);
@@ -132,12 +132,12 @@ public class VisitedActivity extends AppCompatActivity implements LoaderManager.
         byte[] dummyImageInBytes = ImageUtils.getBytes(dummyImage);
 
         ContentValues values = new ContentValues();
-        values.put(RestaurantEntry.COLUMN_RESTAURANT_NAME, "Jakes Pizza Shack");
-        values.put(RestaurantEntry.COLUMN_RESTAURANT_ADDRESS, "101 Moonbase, Moon");
-        values.put(RestaurantEntry.COLUMN_RESTAURANT_NOTE, "It was too good I died");
-        values.put(RestaurantEntry.COLUMN_RESTAURANT_PHONE, "123-456-7890");
-        values.put(RestaurantEntry.COLUMN_RESTAURANT_IMAGE, dummyImageInBytes);
-        Uri newUri = getContentResolver().insert(RestaurantEntry.CONTENT_URI, values);
+        values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_NAME, "Jakes Pizza Shack");
+        values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_ADDRESS, "101 Moonbase, Moon");
+        values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_NOTE, "It was too good I died");
+        values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_PHONE, "123-456-7890");
+        values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_IMAGE, dummyImageInBytes);
+        Uri newUri = getContentResolver().insert(VisitedRestaurantEntry.CONTENT_URI, values);
         Log.d(LOG_TAG, "Successfully inserted dummy data.");
     }
 
@@ -151,15 +151,15 @@ public class VisitedActivity extends AppCompatActivity implements LoaderManager.
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {
-                RestaurantEntry._ID,
-                RestaurantEntry.COLUMN_RESTAURANT_NAME,
-                RestaurantEntry.COLUMN_RESTAURANT_ADDRESS,
-                RestaurantEntry.COLUMN_RESTAURANT_NOTE,
-                RestaurantEntry.COLUMN_RESTAURANT_PHONE,
-                RestaurantEntry.COLUMN_RESTAURANT_IMAGE };
+                VisitedRestaurantEntry._ID,
+                VisitedRestaurantEntry.COLUMN_RESTAURANT_NAME,
+                VisitedRestaurantEntry.COLUMN_RESTAURANT_ADDRESS,
+                VisitedRestaurantEntry.COLUMN_RESTAURANT_NOTE,
+                VisitedRestaurantEntry.COLUMN_RESTAURANT_PHONE,
+                VisitedRestaurantEntry.COLUMN_RESTAURANT_IMAGE };
 
         return new CursorLoader(this,
-                RestaurantEntry.CONTENT_URI,
+                VisitedRestaurantEntry.CONTENT_URI,
                 projection,
                 null,
                 null,
