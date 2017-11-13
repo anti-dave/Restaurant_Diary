@@ -10,7 +10,7 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.android.restaurantdiary.data.RestaurantContract.RestaurantEntry;
+import com.example.android.restaurantdiary.data.RestaurantContract.VisitedRestaurantEntry;
 
 /**
  * Created by jake on 11/8/17.
@@ -63,10 +63,10 @@ public class HasVisitedCursoryAdapter extends CursorAdapter {
         TextView noPicTextView = (TextView) view.findViewById(R.id.restaurant_no_picture);
 
         // Find the columns of item attributes that we're interested in
-        int nameColumnIndex = cursor.getColumnIndex(RestaurantEntry.COLUMN_RESTAURANT_NAME);
-        int addressColumnIndex = cursor.getColumnIndex(RestaurantEntry.COLUMN_RESTAURANT_ADDRESS);
-        int notesColumnIndex = cursor.getColumnIndex(RestaurantEntry.COLUMN_RESTAURANT_NOTE);
-        int pictureColumnIndex = cursor.getColumnIndex(RestaurantEntry.COLUMN_RESTAURANT_IMAGE);
+        int nameColumnIndex = cursor.getColumnIndex(VisitedRestaurantEntry.COLUMN_RESTAURANT_NAME);
+        int addressColumnIndex = cursor.getColumnIndex(VisitedRestaurantEntry.COLUMN_RESTAURANT_ADDRESS);
+        int notesColumnIndex = cursor.getColumnIndex(VisitedRestaurantEntry.COLUMN_RESTAURANT_NOTE);
+        int pictureColumnIndex = cursor.getColumnIndex(VisitedRestaurantEntry.COLUMN_RESTAURANT_IMAGE);
 
         // Read the item attributes from the Cursor for the current item
         String itemName = cursor.getString(nameColumnIndex);
