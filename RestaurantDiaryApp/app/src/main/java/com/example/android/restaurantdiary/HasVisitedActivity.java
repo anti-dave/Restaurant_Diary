@@ -21,7 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.android.restaurantdiary.data.RestaurantContract;
+import com.example.android.restaurantdiary.data.RestaurantContract.RestaurantEntry;
 
 public class HasVisitedActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -77,7 +77,7 @@ public class HasVisitedActivity extends AppCompatActivity implements LoaderManag
                 // by appending the "id" (passed as input to this method) onto the
                 // {@link RestaurantEntry#CONTENT_URI}.
                 Uri currentRestaurantUri =
-                        ContentUris.withAppendedId(RestaurantContract.RestaurantEntry.CONTENT_URI, id);
+                        ContentUris.withAppendedId(RestaurantEntry.CONTENT_URI, id);
 
                 // Set the URI on the data field of the intent
                 intent.setData(currentRestaurantUri);
@@ -115,7 +115,7 @@ public class HasVisitedActivity extends AppCompatActivity implements LoaderManag
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_insert_dummy_data:
-                insertItem();
+                insertDummyItem();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -124,7 +124,7 @@ public class HasVisitedActivity extends AppCompatActivity implements LoaderManag
     /**
      * Helper method to insert hardcoded item data into the database. For debugging purposes only.
      */
-    private void insertItem() {
+    private void insertDummyItem() {
         // Fetch dummy image
         Bitmap dummyImage = BitmapFactory.decodeResource(getApplicationContext().getResources(),
                 R.drawable.jakes_pizza);
@@ -132,11 +132,12 @@ public class HasVisitedActivity extends AppCompatActivity implements LoaderManag
         byte[] dummyImageInBytes = ImageUtils.getBytes(dummyImage);
 
         ContentValues values = new ContentValues();
-        values.put(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_NAME, "Jakes Pizza Shack");
-        values.put(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_ADDRESS, "101 Moonbase, Moon");
-        values.put(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_NOTE, "It was too good I died");
-        values.put(RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_IMAGE, dummyImageInBytes);
-        Uri newUri = getContentResolver().insert(RestaurantContract.RestaurantEntry.CONTENT_URI, values);
+        values.put(RestaurantEntry.COLUMN_RESTAURANT_NAME, "Jakes Pizza Shack");
+        values.put(RestaurantEntry.COLUMN_RESTAURANT_ADDRESS, "101 Moonbase, Moon");
+        values.put(RestaurantEntry.COLUMN_RESTAURANT_NOTE, "It was too good I died");
+        values.put(RestaurantEntry.COLUMN_RESTAURANT_PHONE, "123-456-7890");
+        values.put(RestaurantEntry.COLUMN_RESTAURANT_IMAGE, dummyImageInBytes);
+        Uri newUri = getContentResolver().insert(RestaurantEntry.CONTENT_URI, values);
         Log.d(LOG_TAG, "Successfully inserted dummy data.");
     }
 
@@ -150,14 +151,15 @@ public class HasVisitedActivity extends AppCompatActivity implements LoaderManag
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {
-                RestaurantContract.RestaurantEntry._ID,
-                RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_NAME,
-                RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_ADDRESS,
-                RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_NOTE,
-                RestaurantContract.RestaurantEntry.COLUMN_RESTAURANT_IMAGE };
+                RestaurantEntry._ID,
+                RestaurantEntry.COLUMN_RESTAURANT_NAME,
+                RestaurantEntry.COLUMN_RESTAURANT_ADDRESS,
+                RestaurantEntry.COLUMN_RESTAURANT_NOTE,
+                RestaurantEntry.COLUMN_RESTAURANT_PHONE,
+                RestaurantEntry.COLUMN_RESTAURANT_IMAGE };
 
         return new CursorLoader(this,
-                RestaurantContract.RestaurantEntry.CONTENT_URI,
+                RestaurantEntry.CONTENT_URI,
                 projection,
                 null,
                 null,

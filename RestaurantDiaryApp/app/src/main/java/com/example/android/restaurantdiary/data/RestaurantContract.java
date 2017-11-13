@@ -57,7 +57,7 @@ public final class RestaurantContract {
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_RESTAURANT;
 
         /** Name of database table for restaurants */
-        public final static String TABLE_NAME = "restaurant";
+        public final static String TABLE_NAME = "visitedrestaurant";
 
         /**
          * Unique ID number for the restaurant (only for use in the database table).
@@ -79,6 +79,13 @@ public final class RestaurantContract {
          * Type: TEXT
          */
         public final static String COLUMN_RESTAURANT_ADDRESS = "address";
+
+        /**
+         * Phone number for the restaurant.
+         *
+         * Type: TEXT
+         */
+        public final static String COLUMN_RESTAURANT_PHONE = "phone";
 
         /**
          * Note for the restaurant.
