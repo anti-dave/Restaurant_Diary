@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.android.restaurantdiary">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -27,7 +30,7 @@
         </activity>
 
         <activity
-            android:name=".HasVisitedActivity"
+            android:name=".VisitedActivity"
             android:label="@string/activity_visited"
             android:parentActivityName=".MainActivity" >
             <meta-data
@@ -47,10 +50,10 @@
         <activity
             android:name=".FormVisitedActivity"
             android:label="@string/activity_form"
-            android:parentActivityName=".HasVisitedActivity" >
+            android:parentActivityName=".VisitedActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HasVisitedActivity"/>
+                android:value=".VisitedActivity"/>
         </activity>
 
         <activity
