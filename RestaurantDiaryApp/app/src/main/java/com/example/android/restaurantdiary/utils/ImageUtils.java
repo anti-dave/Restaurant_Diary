@@ -1,4 +1,4 @@
-package com.example.android.restaurantdiary;
+package com.example.android.restaurantdiary.utils;
 
 /**
  * ImageUtils is a static class meant to be used for converting Bitmap to type byte[] for storing

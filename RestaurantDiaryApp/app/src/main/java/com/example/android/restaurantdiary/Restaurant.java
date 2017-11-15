@@ -1,16 +1,25 @@
 package com.example.android.restaurantdiary;
 
 /**
- * API contract.
+ * API contract for the Restaurant object.
  */
 
 public class Restaurant {
+
+    /** Name of restaurant */
     private String mName;
+
+    /** Type of restaurant */
     private String mTypeOfFood;
+
+    /** Address of restaurant */
     private String mAddress;
+
+    /** Phone number of restaurant */
     private String mPhoneNumber;
+
+    /** Rating of restaurant */
     private String mRating;
-    // rest of the private stuff
 
     public Restaurant(String name, String typeOfFood, String address, String phoneNumber, String rating){
         mName = name;
