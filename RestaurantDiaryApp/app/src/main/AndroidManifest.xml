@@ -21,7 +21,7 @@
         </activity>
 
         <activity
-            android:name=".WantToVisitActivity"
+            android:name=".ProspectiveRestaurantActivity"
             android:label="@string/activity_want_to_visit"
             android:parentActivityName=".MainActivity" >
             <meta-data
@@ -30,7 +30,7 @@
         </activity>
 
         <activity
-            android:name=".VisitedActivity"
+            android:name=".VisitedRestaurantActivity"
             android:label="@string/activity_visited"
             android:parentActivityName=".MainActivity" >
             <meta-data
@@ -39,7 +39,7 @@
         </activity>
 
         <activity
-            android:name=".SearchActivity"
+            android:name=".SearchRestaurantActivity"
             android:label="@string/activity_search"
             android:parentActivityName=".MainActivity" >
             <meta-data
@@ -48,21 +48,21 @@
         </activity>
 
         <activity
-            android:name=".FormVisitedActivity"
+            android:name=".VisitedRestaurantFormActivity"
             android:label="@string/activity_form"
-            android:parentActivityName=".VisitedActivity" >
+            android:parentActivityName=".VisitedRestaurantActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".VisitedActivity"/>
+                android:value=".VisitedRestaurantActivity"/>
         </activity>
 
         <activity
-            android:name=".FormWantToVisitActivity"
+            android:name=".ProspectiveRestaurantFormActivity"
             android:label="@string/activity_form"
-            android:parentActivityName=".WantToVisitActivity" >
+            android:parentActivityName=".ProspectiveRestaurantActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".WantToVisitActivity"/>
+                android:value=".ProspectiveRestaurantActivity"/>
         </activity>
 
         <provider

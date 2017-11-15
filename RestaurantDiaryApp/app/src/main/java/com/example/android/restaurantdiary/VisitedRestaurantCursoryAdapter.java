@@ -11,20 +11,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.restaurantdiary.data.RestaurantContract.VisitedRestaurantEntry;
+import com.example.android.restaurantdiary.utils.ImageUtils;
 
 /**
  * Created by jake on 11/8/17.
  */
 
-public class VisitedCursoryAdapter extends CursorAdapter {
+public class VisitedRestaurantCursoryAdapter extends CursorAdapter {
 
     /**
-     * Constructs a new {@link VisitedCursoryAdapter}.
+     * Constructs a new {@link VisitedRestaurantCursoryAdapter}.
      *
      * @param context The context
      * @param c       The cursor from which to get the data.
      */
-    public VisitedCursoryAdapter(Context context, Cursor c){
+    public VisitedRestaurantCursoryAdapter(Context context, Cursor c){
         super(context,c, 0);
     }
 

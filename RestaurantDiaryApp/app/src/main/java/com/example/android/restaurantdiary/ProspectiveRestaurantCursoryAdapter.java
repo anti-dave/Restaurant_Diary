@@ -11,15 +11,15 @@ import android.widget.CursorAdapter;
  * Created by Jake on 11/10/2017.
  */
 
-public class WantToVisitCursoryAdapter extends CursorAdapter {
+public class ProspectiveRestaurantCursoryAdapter extends CursorAdapter {
 
     /**
-     * Constructs a new {@link WantToVisitCursoryAdapter}.
+     * Constructs a new {@link ProspectiveRestaurantCursoryAdapter}.
      *
      * @param context The context
      * @param c       The cursor from which to get the data.
      */
-    public WantToVisitCursoryAdapter(Context context, Cursor c){
+    public ProspectiveRestaurantCursoryAdapter(Context context, Cursor c){
         super(context,c, 0);
     }
 

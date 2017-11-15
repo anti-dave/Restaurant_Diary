@@ -1,10 +1,12 @@
-package com.example.android.restaurantdiary;
+package com.example.android.restaurantdiary.utils;
 
 /**
  * Created by dave on 11/3/17.
  */
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.example.android.restaurantdiary.Restaurant;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -16,11 +16,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchActivity extends AppCompatActivity
+public class SearchRestaurantActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<Restaurant>> {
 
 
-    private static final String LOG_TAG = SearchActivity.class.getName();
+    private static final String LOG_TAG = SearchRestaurantActivity.class.getName();
 
     /**
      * URL for yelp data from the Yelp API

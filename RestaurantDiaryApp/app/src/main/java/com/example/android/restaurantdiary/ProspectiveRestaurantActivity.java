@@ -18,11 +18,12 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.android.restaurantdiary.data.RestaurantContract.ProspectiveRestaurantEntry;
+import com.example.android.restaurantdiary.utils.ImageUtils;
 
-public class WantToVisitActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ProspectiveRestaurantActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     /** Logger tag */
-    public static final String LOG_TAG = WantToVisitActivity.class.getSimpleName();
+    public static final String LOG_TAG = ProspectiveRestaurantActivity.class.getSimpleName();
 
     /**
      * It is the onCreate method for activity.
@@ -38,7 +39,7 @@ public class WantToVisitActivity extends AppCompatActivity implements LoaderMana
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(WantToVisitActivity.this, FormVisitedActivity.class);
+                Intent intent = new Intent(ProspectiveRestaurantActivity.this, VisitedRestaurantFormActivity.class);
                 startActivity(intent);
             }
         });

@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         toVisit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent toVisitIntent = new Intent(MainActivity.this, WantToVisitActivity.class);
+                Intent toVisitIntent = new Intent(MainActivity.this, ProspectiveRestaurantActivity.class);
                 startActivity(toVisitIntent);
             }
         });
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         visited.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent visitedIntent = new Intent(MainActivity.this, VisitedActivity.class);
+                Intent visitedIntent = new Intent(MainActivity.this, VisitedRestaurantActivity.class);
                 startActivity(visitedIntent);
             }
         });
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
+                Intent searchIntent = new Intent(MainActivity.this, SearchRestaurantActivity.class);
                 startActivity(searchIntent);
             }
         });

@@ -7,6 +7,8 @@ package com.example.android.restaurantdiary;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 
+import com.example.android.restaurantdiary.utils.QueryUtils;
+
 import java.util.List;
 
 /** Loads a list of business' by using an AsyncTask to perform the

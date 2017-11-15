@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
  * Created by Rob on 11/9/2017.
  */
 
-public class FormWantToVisitActivity extends AppCompatActivity {
+public class ProspectiveRestaurantFormActivity extends AppCompatActivity {
 
     /**
      * onCreate method.
