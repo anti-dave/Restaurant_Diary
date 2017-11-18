@@ -21,7 +21,7 @@ public class RestaurantDbHelper extends SQLiteOpenHelper {
     /**
      * Database version. If you change the database schema, you must increment the database version.
      */
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     /**
      * Constructs a new instance of {@link RestaurantDbHelper}.
@@ -74,7 +74,9 @@ public class RestaurantDbHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        // Nothing to be done here yet since on version 1.
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + VisitedRestaurantEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ProspectiveRestaurantEntry.TABLE_NAME);
+        onCreate(sqLiteDatabase);
     }
 
 }
