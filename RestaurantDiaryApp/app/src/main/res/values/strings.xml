@@ -9,9 +9,10 @@
     <string name="activity_form">Add a new Restaurant</string>
 
     <!-- Strings for activity_main -->
-    <string name="main_menu_been">Have Been to</string>
-    <string name="main_menu_want">Want to go</string>
-    <string name="main_menu_search">search</string>
+    <string name="main_menu_been">Visited</string>
+    <string name="main_menu_want">Want to Visit</string>
+    <string name="main_menu_search">Find a restaurant</string>
+    <string name="main_menu_title">My Restaurant Diary</string>
 
     <!-- Strings for activity_has_visited -->
 
@@ -19,7 +20,7 @@
 
 
     <!-- Strings for activity_search -->
-    <string name="search_activity_user_input">Enter area that you would like to search</string>
+    <string name="search_activity_user_input">City/Town</string>
     <string name="loading_indicator">Enter to find a new place to eat</string>
     <string name="no_internet_connection">There\'s no internet connection</string>
     <string name="no_restaurants">Enter to find a new place to eat</string>
@@ -27,7 +28,7 @@
     <!-- Strings for the Form activities -->
     <string name="form_name">Name</string>
     <string name="form_address">Address</string>
-    <string name="form_note">Note</string>
+    <string name="form_note">Notes</string>
     <string name="form_button_save">Save</string>
     <string name="form_hint_name">Restaurant Name</string>
     <string name="form_hint_address">Street Address</string>
