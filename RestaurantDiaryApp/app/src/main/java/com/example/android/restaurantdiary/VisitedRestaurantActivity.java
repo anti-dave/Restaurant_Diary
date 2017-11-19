@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.android.restaurantdiary.data.RestaurantContract.VisitedRestaurantEntry;
 import com.example.android.restaurantdiary.utils.ImageUtils;
@@ -30,16 +29,15 @@ public class VisitedRestaurantActivity extends AppCompatActivity implements Load
     public static final String LOG_TAG = VisitedRestaurantActivity.class.getSimpleName();
 
     private VisitedRestaurantCursoryAdapter mCursorAdapter;
-    private TextView mEmptyStateTextView;
 
     private static final int RESTAURANT_LOADER = 0;
-    private boolean mRestaurantHasChanged = false;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_has_visited);
+        setContentView(R.layout.activity_visited_restaurant);
 
         /**
          *  Clicking this button should allow the user to add a restaurant they have visited
