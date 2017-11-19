@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.graphics.drawable.AnimationDrawable;
+import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,6 +20,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.main_menu_layout);
+        AnimationDrawable anim = (AnimationDrawable) linearLayout.getBackground();
+        anim.setEnterFadeDuration(2000);
+        anim.setExitFadeDuration(4000);
+        anim.start();
+
 
         Button toVisit = findViewById(R.id.button_main_menu_want_to);
         Button visited = findViewById(R.id.button_main_menu_have_been);
