@@ -59,26 +59,22 @@ public class VisitedRestaurantCursoryAdapter extends CursorAdapter {
         // Find individual views that we want to modify in the list item layout
         TextView nameTextView = (TextView) view.findViewById(R.id.restaurant_name);
         TextView addressTextView = (TextView) view.findViewById(R.id.restaurant_address);
-        //TextView notesTextView = (TextView) view.findViewById(R.id.restaurant_notes);
         ImageView pictureImageView = (ImageView) view.findViewById(R.id.restaurant_image);
         TextView noPicTextView = (TextView) view.findViewById(R.id.restaurant_no_picture);
 
         // Find the columns of item attributes that we're interested in
         int nameColumnIndex = cursor.getColumnIndex(VisitedRestaurantEntry.COLUMN_RESTAURANT_NAME);
         int addressColumnIndex = cursor.getColumnIndex(VisitedRestaurantEntry.COLUMN_RESTAURANT_ADDRESS);
-        //int notesColumnIndex = cursor.getColumnIndex(VisitedRestaurantEntry.COLUMN_RESTAURANT_NOTE);
         int pictureColumnIndex = cursor.getColumnIndex(VisitedRestaurantEntry.COLUMN_RESTAURANT_IMAGE);
 
         // Read the item attributes from the Cursor for the current item
         String itemName = cursor.getString(nameColumnIndex);
         String itemAddress = cursor.getString(addressColumnIndex);
-        //String itemNotes = cursor.getString(notesColumnIndex);
         byte[] itemImage = cursor.getBlob(pictureColumnIndex);
 
         // Update the TextViews with the attributes for the current item
         nameTextView.setText(itemName);
         addressTextView.setText(itemAddress);
-        //notesTextView.setText(itemNotes);
 
         // If the item breed is empty string or null, then use some default text
         // that says "No Image touch to take one", so the TextView isn't blank.
