@@ -80,6 +80,14 @@
             <item name="android:text">@string/form_button_save</item>
             <item name="android:background">@color/formSaveButtonColor</item>
         </style>
+
+        <!-- theme for the save button in the form -->
+        <style name="FormDeleteButtonStyle">
+            <item name="android:layout_width">wrap_content</item>
+            <item name="android:layout_height">wrap_content</item>
+            <item name="android:text">@string/form_button_delete</item>
+            <item name="android:background">@color/formDeleteButtonColor</item>
+        </style>
     <!-- ends the styles used in the FORM ACTIVITIES -->
 
     <!-- ListView style -->
