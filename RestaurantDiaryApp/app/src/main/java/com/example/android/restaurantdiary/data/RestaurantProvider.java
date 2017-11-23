@@ -230,13 +230,15 @@ public class RestaurantProvider extends ContentProvider {
         String tableName = null;
         String columnRestaurantName = null;
 
+        Log.e("WOW", uri.toString());
+
         final int match = sUriMatcher.match(uri);
         switch (match) {
-            case VISITED_RESTAURANTS:
+            case VISITED_RESTAURANT_ID:
                 columnRestaurantName = values.getAsString(VisitedRestaurantEntry.COLUMN_RESTAURANT_NAME);
                 tableName = VisitedRestaurantEntry.TABLE_NAME;
                 break;
-            case PROSPECTIVE_RESTAURANTS:
+            case PROSPECTIVE_RESTAURANT_ID:
                 columnRestaurantName = values.getAsString(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NAME);
                 tableName = ProspectiveRestaurantEntry.TABLE_NAME;
                 break;
@@ -254,6 +256,7 @@ public class RestaurantProvider extends ContentProvider {
         }
 
         SQLiteDatabase database = mDBHelper.getWritableDatabase();
+        Log.e("WOW", tableName);
         int rowsUpdated = database.update(tableName, values,
                 selection, selectionArgs);
 
