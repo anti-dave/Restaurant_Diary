@@ -224,7 +224,7 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
                 ProspectiveRestaurantEntry.COLUMN_RESTAURANT_IMAGE };
 
         return new CursorLoader(this,
-                ProspectiveRestaurantEntry.CONTENT_URI,
+                mCurrentRestaurantUri,
                 projection,
                 null,
                 null,

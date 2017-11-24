@@ -46,7 +46,7 @@ public class ProspectiveRestaurantCursoryAdapter extends CursorAdapter {
     }
 
     /**
-     * This method binds the pet data (in the current row pointed to by cursor) to the given
+     * This method binds the restaurant data (in the current row pointed to by cursor) to the given
      * list item layout. For example, the name for the current pet can be set on the name TextView
      * in the list item layout.
      *
@@ -60,11 +60,12 @@ public class ProspectiveRestaurantCursoryAdapter extends CursorAdapter {
         // Find individual views that we want to modify in the list item layout
         TextView nameTextView = (TextView) view.findViewById(R.id.restaurant_name);
         TextView addressTextView = (TextView) view.findViewById(R.id.restaurant_address);
+
         ImageView pictureImageView = (ImageView) view.findViewById(R.id.restaurant_image);
         TextView noPicTextView = (TextView) view.findViewById(R.id.restaurant_no_picture);
 
         // Find the columns of item attributes that we're interested in
-        int nameColumnIndex = cursor.getColumnIndex(RestaurantContract.ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NAME);
+        int nameColumnIndex = cursor.getColumnIndex(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NAME);
         int addressColumnIndex = cursor.getColumnIndex(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_ADDRESS);
         int pictureColumnIndex = cursor.getColumnIndex(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_IMAGE);
 
