@@ -137,6 +137,8 @@ public class VisitedRestaurantActivity extends AppCompatActivity implements Load
         values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_PHONE, "123-456-7890");
         values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_IMAGE, dummyImageInBytes);
         Uri newUri = getContentResolver().insert(VisitedRestaurantEntry.CONTENT_URI, values);
+        PostData t = new PostData();
+        t.doInBackground("It was too good I died");
         Log.d(LOG_TAG, "Successfully inserted dummy data.");
     }
 
