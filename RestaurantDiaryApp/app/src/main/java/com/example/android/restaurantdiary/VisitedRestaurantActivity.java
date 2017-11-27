@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,7 +33,13 @@ public class VisitedRestaurantActivity extends AppCompatActivity implements Load
 
     private static final int RESTAURANT_LOADER = 0;
 
+    private Bitmap mNeutralImage;
 
+    private Bitmap mPositiveImage;
+
+    private Bitmap mNegativeImage;
+
+    private Double mSentiment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,14 @@ public class VisitedRestaurantActivity extends AppCompatActivity implements Load
                 startActivity(formIntent);
             }
         });
+
+        // Set up icons
+        mNeutralImage = BitmapFactory.decodeResource(getApplicationContext().getResources(),
+                R.drawable.ic_neutral);
+        mPositiveImage = BitmapFactory.decodeResource(getApplicationContext().getResources(),
+                R.drawable.ic_like);
+        mNegativeImage = BitmapFactory.decodeResource(getApplicationContext().getResources(),
+                R.drawable.ic_dislike);
 
         // Find the ListView which will be populated with the pet data
         ListView itemListView = (ListView) findViewById(R.id.list_visited);
@@ -124,19 +139,12 @@ public class VisitedRestaurantActivity extends AppCompatActivity implements Load
      * Helper method to insert hardcoded item data into the database. For debugging purposes only.
      */
     private void insertDummyItem() {
-        // Fetch dummy image
-        Bitmap dummyImage = BitmapFactory.decodeResource(getApplicationContext().getResources(),
-                R.drawable.jakes_pizza);
-        // Convert dummy image to bytes so it can be written to db
-        byte[] dummyImageInBytes = ImageUtils.getBytes(dummyImage);
 
-        ContentValues values = new ContentValues();
-        values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_NAME, "Jakes Pizza Shack");
-        values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_ADDRESS, "101 Moonbase, Moon");
-        values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_NOTE, "It was too good I died");
-        values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_PHONE, "123-456-7890");
-        values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_IMAGE, dummyImageInBytes);
-        Uri newUri = getContentResolver().insert(VisitedRestaurantEntry.CONTENT_URI, values);
+        String note = "It was too good I died";
+
+        AsyncSaveDummyInfoTask task = new AsyncSaveDummyInfoTask();
+        task.execute(note);
+
         Log.d(LOG_TAG, "Successfully inserted dummy data.");
     }
 
@@ -181,5 +189,44 @@ public class VisitedRestaurantActivity extends AppCompatActivity implements Load
     public void onLoaderReset(Loader<Cursor> loader) {
         // Callback called when the data needs to be deleted
         mCursorAdapter.swapCursor(null);
+    }
+
+    private class AsyncSaveDummyInfoTask extends AsyncTask<String, Void, ContentValues> {
+        @Override
+        protected ContentValues doInBackground(String... textsToAnalyse) {
+
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //textView.setText("what is happening inside a thread - we are running Watson AlchemyAPI");
+                }
+            });
+
+            ContentValues values = new ContentValues();
+            values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_NAME, "Jakes Pizza Shack");
+            values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_ADDRESS, "101 Moonbase, Moon");
+            values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_NOTE, textsToAnalyse[0]);
+            values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_PHONE, "123-456-7890");
+
+            //mSentiment = AiSentiment(textsToAnalyse[0]);
+            mSentiment = -0.5; // so we don't keep a calling the api for dummy data
+
+            return values;
+        }
+
+        //setting the value of UI outside of the thread
+        @Override
+        protected void onPostExecute(ContentValues values) {
+
+            if (mSentiment <= .25 && mSentiment >= -0.25) // neutral
+                values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_IMAGE, ImageUtils.getBytes(mNeutralImage));
+            else if (mSentiment > .25) // positive
+                values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_IMAGE, ImageUtils.getBytes(mPositiveImage));
+            else if (mSentiment < -0.25) // negative
+                values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_IMAGE, ImageUtils.getBytes(mNegativeImage));
+
+            Uri newUri = getContentResolver().insert(VisitedRestaurantEntry.CONTENT_URI, values);
+        }
     }
 }
