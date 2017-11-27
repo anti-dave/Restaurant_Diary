@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,12 +24,16 @@ import android.widget.ListView;
 import com.example.android.restaurantdiary.data.RestaurantContract.ProspectiveRestaurantEntry;
 import com.example.android.restaurantdiary.utils.ImageUtils;
 
+import static com.example.android.restaurantdiary.AiStuff.AiSentiment;
+
 public class ProspectiveRestaurantActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     /** Logger tag */
     public static final String LOG_TAG = ProspectiveRestaurantActivity.class.getSimpleName();
 
     private ProspectiveRestaurantCursoryAdapter mCursorAdapter;
+
+    private String mSentimentTemp;
 
     // not sure if the loader should be the same as visited loader
     private static final int RESTAURANT_LOADER = 1;
@@ -128,13 +133,17 @@ public class ProspectiveRestaurantActivity extends AppCompatActivity implements 
                 R.drawable.jakes_pizza);
         // Convert dummy image to bytes so it can be written to db
         byte[] dummyImageInBytes = ImageUtils.getBytes(dummyImage);
-
+        String note = "It was too good I died";
         ContentValues values = new ContentValues();
         values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NAME, "Jakes Pizza Shack");
         values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_ADDRESS, "101 Moonbase, Moon");
-        values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NOTE, "It was too good I died");
+        values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NOTE, note);
         values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_PHONE, "123-456-7890");
         values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_IMAGE, dummyImageInBytes);
+
+        AskWatsonTask task = new AskWatsonTask();
+        task.execute(note);
+
         Uri newUri = getContentResolver().insert(ProspectiveRestaurantEntry.CONTENT_URI, values);
         Log.d(LOG_TAG, "Successfully inserted dummy data.");
     }
@@ -180,6 +189,31 @@ public class ProspectiveRestaurantActivity extends AppCompatActivity implements 
     public void onLoaderReset(Loader<Cursor> loader) {
         // Callback called when the data needs to be deleted
         mCursorAdapter.swapCursor(null);
+    }
+
+    private class AskWatsonTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... textsToAnalyse) {
+
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //textView.setText("what is happening inside a thread - we are running Watson AlchemyAPI");
+                }
+            });
+
+            return AiSentiment(textsToAnalyse[0]);
+
+        }
+
+        //setting the value of UI outside of the thread
+        @Override
+        protected void onPostExecute(String result) {
+            Log.e(LOG_TAG, result);
+            // will this cause a race condition?
+            mSentimentTemp = result;
+        }
     }
 
 }

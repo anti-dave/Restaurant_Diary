@@ -11,10 +11,12 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -26,6 +28,8 @@ import android.widget.Toast;
 
 import com.example.android.restaurantdiary.data.RestaurantContract.ProspectiveRestaurantEntry;
 import com.example.android.restaurantdiary.utils.ImageUtils;
+
+import static com.example.android.restaurantdiary.AiStuff.AiSentiment;
 
 
 public class ProspectiveRestaurantFormActivity extends AppCompatActivity
@@ -61,6 +65,8 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
     /** Boolean flag that keeps track of whether the restaurant
      *  has been edited (true) or not (false) */
     private boolean mRestaurantHasChanged = false;
+
+    private String mSentimentTemp;
 
     /**
      * OnTouchListener that listens for any user touches on a View, implying that they are modifying
@@ -453,5 +459,32 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
 
         // Show dialog that there are unsaved changes
         showUnsavedChangesDialog(discardButtonClickListener);
+    }
+
+    private class AskWatsonTask extends AsyncTask<String, Void, String> {
+        private final String LOG_TAG = AskWatsonTask.class.getSimpleName();
+
+        @Override
+        protected String doInBackground(String... textsToAnalyse) {
+
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //textView.setText("what is happening inside a thread - we are running Watson AlchemyAPI");
+                }
+            });
+
+            return AiSentiment(textsToAnalyse[0]);
+
+        }
+
+        //setting the value of UI outside of the thread
+        @Override
+        protected void onPostExecute(String result) {
+            Log.e(LOG_TAG, result);
+            // will this cause a race condition?
+            mSentimentTemp = result;
+        }
     }
 }
