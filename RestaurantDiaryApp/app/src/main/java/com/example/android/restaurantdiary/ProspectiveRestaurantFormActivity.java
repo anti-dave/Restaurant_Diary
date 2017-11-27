@@ -490,12 +490,13 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
                 }
             });
 
+            // insert data into the database
             ContentValues values = new ContentValues();
             values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NAME, "Jakes Pizza Shack");
             values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_ADDRESS, "101 Moonbase, Moon");
             values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NOTE, textsToAnalyse[0]);
             values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_PHONE, "123-456-7890");
-
+            // get sentiment
             mSentiment = AiSentiment(textsToAnalyse[0]);
 
             return values;
@@ -505,7 +506,7 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
         //setting the value of UI outside of the thread
         @Override
         protected void onPostExecute(ContentValues values) {
-
+            // set up images
             if (mSentiment <= .25 && mSentiment <= -0.25) // neutral
                 values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_IMAGE, ImageUtils.getBytes(mNeutralImage));
             else if (mSentiment > .25) // positive
