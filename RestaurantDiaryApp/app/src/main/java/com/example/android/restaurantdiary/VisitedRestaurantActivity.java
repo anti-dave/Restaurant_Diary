@@ -24,9 +24,6 @@ import android.widget.ListView;
 import com.example.android.restaurantdiary.data.RestaurantContract.VisitedRestaurantEntry;
 import com.example.android.restaurantdiary.utils.ImageUtils;
 
-import static android.os.AsyncTask.Status.FINISHED;
-import static com.example.android.restaurantdiary.AiStuff.AiSentiment;
-
 public class VisitedRestaurantActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     /** Logger tag */
@@ -145,7 +142,7 @@ public class VisitedRestaurantActivity extends AppCompatActivity implements Load
 
         String note = "It was too good I died";
 
-        AskWatsonTask task = new AskWatsonTask();
+        AsyncSaveTask task = new AsyncSaveTask();
         task.execute(note);
 
         Log.d(LOG_TAG, "Successfully inserted dummy data.");
@@ -194,7 +191,7 @@ public class VisitedRestaurantActivity extends AppCompatActivity implements Load
         mCursorAdapter.swapCursor(null);
     }
 
-    private class AskWatsonTask extends AsyncTask<String, Void, ContentValues> {
+    private class AsyncSaveTask extends AsyncTask<String, Void, ContentValues> {
         @Override
         protected ContentValues doInBackground(String... textsToAnalyse) {
 
@@ -212,7 +209,8 @@ public class VisitedRestaurantActivity extends AppCompatActivity implements Load
             values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_NOTE, textsToAnalyse[0]);
             values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_PHONE, "123-456-7890");
 
-            mSentiment = AiSentiment(textsToAnalyse[0]);
+            //mSentiment = AiSentiment(textsToAnalyse[0]);
+            mSentiment = -0.5; // so we don't keep a calling the api for dummy data
 
             return values;
         }
@@ -221,7 +219,7 @@ public class VisitedRestaurantActivity extends AppCompatActivity implements Load
         @Override
         protected void onPostExecute(ContentValues values) {
 
-            if (mSentiment <= .25 && mSentiment <= -0.25) // neutral
+            if (mSentiment <= .25 && mSentiment >= -0.25) // neutral
                 values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_IMAGE, ImageUtils.getBytes(mNeutralImage));
             else if (mSentiment > .25) // positive
                 values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_IMAGE, ImageUtils.getBytes(mPositiveImage));

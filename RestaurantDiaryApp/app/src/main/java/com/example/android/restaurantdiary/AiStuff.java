@@ -24,38 +24,38 @@ public class AiStuff {
             return 0.0;
         }
 
-        NaturalLanguageUnderstanding service = new NaturalLanguageUnderstanding(
-                NaturalLanguageUnderstanding.VERSION_DATE_2017_02_27,
-                USERNAME,
-                PASSWORD
-        );
-
-        String text = textsToAnalyse;
-
-        SentimentOptions sentiment = new SentimentOptions.Builder().build();
-
-        Features features = new Features.Builder().sentiment(sentiment).build();
-
-        AnalyzeOptions parameters = new AnalyzeOptions.Builder().text(text).features(features).build();
-
-        AnalysisResults response = service.analyze(parameters).execute();
-
-        JSONObject test = new JSONObject();
         try {
-            test = new JSONObject(response.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
+            NaturalLanguageUnderstanding service = new NaturalLanguageUnderstanding(
+                    NaturalLanguageUnderstanding.VERSION_DATE_2017_02_27,
+                    USERNAME,
+                    PASSWORD
+            );
+
+            String text = textsToAnalyse;
+
+            SentimentOptions sentiment = new SentimentOptions.Builder().build();
+            Features features = new Features.Builder().sentiment(sentiment).build();
+            AnalyzeOptions parameters = new AnalyzeOptions.Builder().text(text).features(features).build();
+            AnalysisResults response = service.analyze(parameters).execute();
+
+            JSONObject test = new JSONObject();
+            try {
+                test = new JSONObject(response.toString());
+            } catch (JSONException e) {
+                return 0.0;
+            }
+
+            Double sentimentScore = new Double(0.0);
+            try {
+                sentimentScore = test.getJSONObject("sentiment").getJSONObject("document").getDouble("score");
+            } catch (JSONException e) {
+                return 0.0;
+            }
+
+            return sentimentScore;
+
+        } catch (Exception e){
+            return 0.0;
         }
-        int i = test.length();
-
-        Double sentimentScore = new Double(0.0);
-
-        try {
-            sentimentScore = test.getJSONObject("sentiment").getJSONObject("document").getDouble("score");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return sentimentScore ;
     }
 }
