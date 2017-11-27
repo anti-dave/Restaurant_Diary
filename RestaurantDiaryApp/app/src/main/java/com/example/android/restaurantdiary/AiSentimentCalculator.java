@@ -13,11 +13,18 @@ import org.json.JSONObject;
  * Created by Jake on 11/26/2017.
  */
 
-public class AiStuff {
+public class AiSentimentCalculator {
 
     private static final String USERNAME = "9aff14e2-5530-40e8-98f9-fdb8a25e0e7c";
     private static final String PASSWORD = "AZeTU8O1UOSt";
 
+    /**
+     * AiSentiment method.
+     *
+     * @param textsToAnalyse the note/text to be analyzed by the ai
+     *
+     * @return Double which is the score -1 to 1 negative to positive sentiment
+     */
     public static Double AiSentiment(String textsToAnalyse){
 
         if(textsToAnalyse.isEmpty() || textsToAnalyse == null){

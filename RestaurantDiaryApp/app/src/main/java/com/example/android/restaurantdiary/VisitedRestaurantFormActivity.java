@@ -29,7 +29,7 @@ import android.widget.Toast;
 import com.example.android.restaurantdiary.data.RestaurantContract.VisitedRestaurantEntry;
 import com.example.android.restaurantdiary.utils.ImageUtils;
 
-import static com.example.android.restaurantdiary.AiStuff.AiSentiment;
+import static com.example.android.restaurantdiary.AiSentimentCalculator.AiSentiment;
 
 
 public class VisitedRestaurantFormActivity extends AppCompatActivity

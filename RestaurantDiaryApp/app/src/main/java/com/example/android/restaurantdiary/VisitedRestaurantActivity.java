@@ -142,7 +142,7 @@ public class VisitedRestaurantActivity extends AppCompatActivity implements Load
 
         String note = "It was too good I died";
 
-        AsyncSaveTask task = new AsyncSaveTask();
+        AsyncSaveDummyInfoTask task = new AsyncSaveDummyInfoTask();
         task.execute(note);
 
         Log.d(LOG_TAG, "Successfully inserted dummy data.");
@@ -191,7 +191,7 @@ public class VisitedRestaurantActivity extends AppCompatActivity implements Load
         mCursorAdapter.swapCursor(null);
     }
 
-    private class AsyncSaveTask extends AsyncTask<String, Void, ContentValues> {
+    private class AsyncSaveDummyInfoTask extends AsyncTask<String, Void, ContentValues> {
         @Override
         protected ContentValues doInBackground(String... textsToAnalyse) {
 
