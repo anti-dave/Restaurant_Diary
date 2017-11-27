@@ -16,6 +16,11 @@ public class AiStuff {
     private static final String PASSWORD = "AZeTU8O1UOSt";
 
     public static String AiSentiment(String textsToAnalyse){
+
+        if(textsToAnalyse.isEmpty() || textsToAnalyse == null){
+            return "";
+        }
+
         NaturalLanguageUnderstanding service = new NaturalLanguageUnderstanding(
                 NaturalLanguageUnderstanding.VERSION_DATE_2017_02_27,
                 USERNAME,
