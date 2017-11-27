@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +23,19 @@ import android.widget.ListView;
 
 import com.example.android.restaurantdiary.data.RestaurantContract.VisitedRestaurantEntry;
 import com.example.android.restaurantdiary.utils.ImageUtils;
+import com.ibm.watson.developer_cloud.alchemy.v1.AlchemyLanguage;
+import com.ibm.watson.developer_cloud.alchemy.v1.model.DocumentSentiment;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.NaturalLanguageUnderstanding;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.AnalysisResults;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.AnalyzeOptions;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.Features;
+import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.SentimentOptions;
+
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class VisitedRestaurantActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -32,7 +46,7 @@ public class VisitedRestaurantActivity extends AppCompatActivity implements Load
 
     private static final int RESTAURANT_LOADER = 0;
 
-
+    private String mSentimentTemp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +151,8 @@ public class VisitedRestaurantActivity extends AppCompatActivity implements Load
         values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_PHONE, "123-456-7890");
         values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_IMAGE, dummyImageInBytes);
         Uri newUri = getContentResolver().insert(VisitedRestaurantEntry.CONTENT_URI, values);
+        AskWatsonTask task = new AskWatsonTask();
+        task.execute("Its wasz to gud I died");
         Log.d(LOG_TAG, "Successfully inserted dummy data.");
     }
 
@@ -181,5 +197,53 @@ public class VisitedRestaurantActivity extends AppCompatActivity implements Load
     public void onLoaderReset(Loader<Cursor> loader) {
         // Callback called when the data needs to be deleted
         mCursorAdapter.swapCursor(null);
+    }
+
+    private class AskWatsonTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... textsToAnalyse) {
+
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //textView.setText("what is happening inside a thread - we are running Watson AlchemyAPI");
+                }
+            });
+
+            NaturalLanguageUnderstanding service = new NaturalLanguageUnderstanding(
+                    NaturalLanguageUnderstanding.VERSION_DATE_2017_02_27,
+                    "9aff14e2-5530-40e8-98f9-fdb8a25e0e7c",
+                    "AZeTU8O1UOSt"
+            );
+
+            String text =textsToAnalyse[0];
+
+            SentimentOptions sentiment = new SentimentOptions.Builder()
+                    .build();
+
+            Features features = new Features.Builder()
+                    .sentiment(sentiment)
+                    .build();
+
+            AnalyzeOptions parameters = new AnalyzeOptions.Builder()
+                    .text(text)
+                    .features(features)
+                    .build();
+
+            AnalysisResults response = service
+                    .analyze(parameters)
+                    .execute();
+
+            return response.toString();
+
+        }
+
+        //setting the value of UI outside of the thread
+        @Override
+        protected void onPostExecute(String result) {
+            Log.e(LOG_TAG, "*******************"+result+"*************************");
+            mSentimentTemp = result;
+        }
     }
 }
