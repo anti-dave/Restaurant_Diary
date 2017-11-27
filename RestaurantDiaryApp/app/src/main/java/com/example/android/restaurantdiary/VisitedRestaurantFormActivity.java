@@ -461,30 +461,30 @@ public class VisitedRestaurantFormActivity extends AppCompatActivity
         showUnsavedChangesDialog(discardButtonClickListener);
     }
 
-    private class AskWatsonTask extends AsyncTask<String, Void, String> {
-        private final String LOG_TAG = AskWatsonTask.class.getSimpleName();
-
-        @Override
-        protected String doInBackground(String... textsToAnalyse) {
-
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    //textView.setText("what is happening inside a thread - we are running Watson AlchemyAPI");
-                }
-            });
-
-            return AiSentiment(textsToAnalyse[0]);
-
-        }
-
-        //setting the value of UI outside of the thread
-        @Override
-        protected void onPostExecute(String result) {
-            Log.e(LOG_TAG, result);
-            // will this cause a race condition?
-            mSentimentTemp = result;
-        }
-    }
+//    private class AskWatsonTask extends AsyncTask<String, Void, String> {
+//        private final String LOG_TAG = AskWatsonTask.class.getSimpleName();
+//
+//        @Override
+//        protected String doInBackground(String... textsToAnalyse) {
+//
+//
+//            runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    //textView.setText("what is happening inside a thread - we are running Watson AlchemyAPI");
+//                }
+//            });
+//
+//            return AiSentiment(textsToAnalyse[0]);
+//
+//        }
+//
+//        //setting the value of UI outside of the thread
+//        @Override
+//        protected void onPostExecute(String result) {
+//            Log.e(LOG_TAG, result);
+//            // will this cause a race condition?
+//            mSentimentTemp = result;
+//        }
+//    }
 }

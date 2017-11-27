@@ -33,7 +33,13 @@ public class ProspectiveRestaurantActivity extends AppCompatActivity implements 
 
     private ProspectiveRestaurantCursoryAdapter mCursorAdapter;
 
-    private String mSentimentTemp;
+    private Bitmap mNeutralImage;
+
+    private Bitmap mPositiveImage;
+
+    private Bitmap mNegativeImage;
+
+    private Double mSentiment;
 
     // not sure if the loader should be the same as visited loader
     private static final int RESTAURANT_LOADER = 1;
@@ -56,6 +62,14 @@ public class ProspectiveRestaurantActivity extends AppCompatActivity implements 
                 startActivity(intent);
             }
         });
+
+        // Set up icons
+        mNeutralImage = BitmapFactory.decodeResource(getApplicationContext().getResources(),
+                R.drawable.ic_neutral);
+        mPositiveImage = BitmapFactory.decodeResource(getApplicationContext().getResources(),
+                R.drawable.ic_like);
+        mNegativeImage = BitmapFactory.decodeResource(getApplicationContext().getResources(),
+                R.drawable.ic_dislike);
 
         // Find the ListView which will be populated with the pet data
         ListView itemListView = (ListView) findViewById(R.id.list_visited);
@@ -128,23 +142,12 @@ public class ProspectiveRestaurantActivity extends AppCompatActivity implements 
      * Helper method to insert hardcoded item data into the database. For debugging purposes only.
      */
     private void insertDummyItem() {
-        // Fetch dummy image
-        Bitmap dummyImage = BitmapFactory.decodeResource(getApplicationContext().getResources(),
-                R.drawable.jakes_pizza);
-        // Convert dummy image to bytes so it can be written to db
-        byte[] dummyImageInBytes = ImageUtils.getBytes(dummyImage);
+
         String note = "It was too good I died";
-        ContentValues values = new ContentValues();
-        values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NAME, "Jakes Pizza Shack");
-        values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_ADDRESS, "101 Moonbase, Moon");
-        values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NOTE, note);
-        values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_PHONE, "123-456-7890");
-        values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_IMAGE, dummyImageInBytes);
 
         AskWatsonTask task = new AskWatsonTask();
         task.execute(note);
 
-        Uri newUri = getContentResolver().insert(ProspectiveRestaurantEntry.CONTENT_URI, values);
         Log.d(LOG_TAG, "Successfully inserted dummy data.");
     }
 
@@ -191,9 +194,9 @@ public class ProspectiveRestaurantActivity extends AppCompatActivity implements 
         mCursorAdapter.swapCursor(null);
     }
 
-    private class AskWatsonTask extends AsyncTask<String, Void, String> {
+    private class AskWatsonTask extends AsyncTask<String, Void, ContentValues> {
         @Override
-        protected String doInBackground(String... textsToAnalyse) {
+        protected ContentValues doInBackground(String... textsToAnalyse) {
 
 
             runOnUiThread(new Runnable() {
@@ -203,16 +206,30 @@ public class ProspectiveRestaurantActivity extends AppCompatActivity implements 
                 }
             });
 
-            return AiSentiment(textsToAnalyse[0]);
+            ContentValues values = new ContentValues();
+            values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NAME, "Jakes Pizza Shack");
+            values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_ADDRESS, "101 Moonbase, Moon");
+            values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NOTE, textsToAnalyse[0]);
+            values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_PHONE, "123-456-7890");
+
+            mSentiment = AiSentiment(textsToAnalyse[0]);
+
+            return values;
 
         }
 
         //setting the value of UI outside of the thread
         @Override
-        protected void onPostExecute(String result) {
-            Log.e(LOG_TAG, result);
-            // will this cause a race condition?
-            mSentimentTemp = result;
+        protected void onPostExecute(ContentValues values) {
+
+            if (mSentiment <= .25 && mSentiment <= -0.25) // neutral
+                values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_IMAGE, ImageUtils.getBytes(mNeutralImage));
+            else if (mSentiment > .25) // positive
+                values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_IMAGE, ImageUtils.getBytes(mPositiveImage));
+            else if (mSentiment < -0.25) // negative
+                values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_IMAGE, ImageUtils.getBytes(mNegativeImage));
+
+            Uri newUri = getContentResolver().insert(ProspectiveRestaurantEntry.CONTENT_URI, values);
         }
     }
 

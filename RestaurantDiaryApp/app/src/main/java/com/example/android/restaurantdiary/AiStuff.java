@@ -6,6 +6,9 @@ import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.An
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.Features;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.SentimentOptions;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by Jake on 11/26/2017.
  */
@@ -15,10 +18,10 @@ public class AiStuff {
     private static final String USERNAME = "9aff14e2-5530-40e8-98f9-fdb8a25e0e7c";
     private static final String PASSWORD = "AZeTU8O1UOSt";
 
-    public static String AiSentiment(String textsToAnalyse){
+    public static Double AiSentiment(String textsToAnalyse){
 
         if(textsToAnalyse.isEmpty() || textsToAnalyse == null){
-            return "";
+            return 0.0;
         }
 
         NaturalLanguageUnderstanding service = new NaturalLanguageUnderstanding(
@@ -37,6 +40,22 @@ public class AiStuff {
 
         AnalysisResults response = service.analyze(parameters).execute();
 
-        return response.toString();
+        JSONObject test = new JSONObject();
+        try {
+            test = new JSONObject(response.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        int i = test.length();
+
+        Double sentimentScore = new Double(0.0);
+
+        try {
+            sentimentScore = test.getJSONObject("sentiment").getJSONObject("document").getDouble("score");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return sentimentScore ;
     }
 }

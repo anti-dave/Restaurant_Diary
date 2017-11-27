@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -66,7 +67,14 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
      *  has been edited (true) or not (false) */
     private boolean mRestaurantHasChanged = false;
 
-    private String mSentimentTemp;
+    private Bitmap mNeutralImage;
+
+    private Bitmap mPositiveImage;
+
+    private Bitmap mNegativeImage;
+
+    private Double mSentiment;
+
 
     /**
      * OnTouchListener that listens for any user touches on a View, implying that they are modifying
@@ -112,6 +120,14 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
             // and display the current values in the editor
             getLoaderManager().initLoader(EXISTING_RESTAURANT_LOADER, null, this);
         }
+
+        // Set up icons
+        mNeutralImage = BitmapFactory.decodeResource(getApplicationContext().getResources(),
+                R.drawable.ic_neutral);
+        mPositiveImage = BitmapFactory.decodeResource(getApplicationContext().getResources(),
+                R.drawable.ic_like);
+        mNegativeImage = BitmapFactory.decodeResource(getApplicationContext().getResources(),
+                R.drawable.ic_dislike);
 
         mNameEditText = (EditText) findViewById(R.id.form_visited_name);
         mAddressEditText = (EditText) findViewById(R.id.form_visited_address);
@@ -179,6 +195,7 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
             values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_ADDRESS, addressString);
             values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NOTE, noteString);
             values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_PHONE, phoneString);
+
             // If the price is not provided by the user, don't try to parse the string into an
             // integer value. Use 0 by default.
             // Determine if this is a new or existing restaurant by checking if mCurrentRestaurantUri is null or not
@@ -461,11 +478,9 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
         showUnsavedChangesDialog(discardButtonClickListener);
     }
 
-    private class AskWatsonTask extends AsyncTask<String, Void, String> {
-        private final String LOG_TAG = AskWatsonTask.class.getSimpleName();
-
+    private class AskWatsonTask extends AsyncTask<String, Void, ContentValues> {
         @Override
-        protected String doInBackground(String... textsToAnalyse) {
+        protected ContentValues doInBackground(String... textsToAnalyse) {
 
 
             runOnUiThread(new Runnable() {
@@ -475,16 +490,30 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
                 }
             });
 
-            return AiSentiment(textsToAnalyse[0]);
+            ContentValues values = new ContentValues();
+            values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NAME, "Jakes Pizza Shack");
+            values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_ADDRESS, "101 Moonbase, Moon");
+            values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NOTE, textsToAnalyse[0]);
+            values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_PHONE, "123-456-7890");
+
+            mSentiment = AiSentiment(textsToAnalyse[0]);
+
+            return values;
 
         }
 
         //setting the value of UI outside of the thread
         @Override
-        protected void onPostExecute(String result) {
-            Log.e(LOG_TAG, result);
-            // will this cause a race condition?
-            mSentimentTemp = result;
+        protected void onPostExecute(ContentValues values) {
+
+            if (mSentiment <= .25 && mSentiment <= -0.25) // neutral
+                values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_IMAGE, ImageUtils.getBytes(mNeutralImage));
+            else if (mSentiment > .25) // positive
+                values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_IMAGE, ImageUtils.getBytes(mPositiveImage));
+            else if (mSentiment < -0.25) // negative
+                values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_IMAGE, ImageUtils.getBytes(mNegativeImage));
+
+            Uri newUri = getContentResolver().insert(ProspectiveRestaurantEntry.CONTENT_URI, values);
         }
     }
 }
