@@ -10,7 +10,9 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +28,8 @@ import android.widget.Toast;
 
 import com.example.android.restaurantdiary.data.RestaurantContract.VisitedRestaurantEntry;
 import com.example.android.restaurantdiary.utils.ImageUtils;
+
+import static com.example.android.restaurantdiary.AiSentimentCalculator.AiSentiment;
 
 
 public class VisitedRestaurantFormActivity extends AppCompatActivity
@@ -61,6 +65,14 @@ public class VisitedRestaurantFormActivity extends AppCompatActivity
     /** Boolean flag that keeps track of whether the restaurant
      *  has been edited (true) or not (false) */
     private boolean mRestaurantHasChanged = false;
+
+    private Bitmap mNeutralImage;
+
+    private Bitmap mPositiveImage;
+
+    private Bitmap mNegativeImage;
+
+    private Double mSentiment;
 
     /**
      * OnTouchListener that listens for any user touches on a View, implying that they are modifying
@@ -106,6 +118,14 @@ public class VisitedRestaurantFormActivity extends AppCompatActivity
             // and display the current values in the editor
             getLoaderManager().initLoader(EXISTING_RESTAURANT_LOADER, null, this);
         }
+
+        // Set up icons
+        mNeutralImage = BitmapFactory.decodeResource(getApplicationContext().getResources(),
+                R.drawable.ic_neutral);
+        mPositiveImage = BitmapFactory.decodeResource(getApplicationContext().getResources(),
+                R.drawable.ic_like);
+        mNegativeImage = BitmapFactory.decodeResource(getApplicationContext().getResources(),
+                R.drawable.ic_dislike);
 
         mNameEditText = (EditText) findViewById(R.id.form_visited_name);
         mAddressEditText = (EditText) findViewById(R.id.form_visited_address);
@@ -166,49 +186,9 @@ public class VisitedRestaurantFormActivity extends AppCompatActivity
             Context context = getApplicationContext();
             Toast.makeText(context, getString(R.string.incomplete_form), Toast.LENGTH_SHORT).show();
         } else {
-            // Create a ContentValues object where column names are the keys,
-            // and restaurant attributes from the editor are the values.
-            ContentValues values = new ContentValues();
-            values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_NAME, nameString);
-            values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_ADDRESS, addressString);
-            values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_NOTE, noteString);
-            values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_PHONE, phoneString);
-            // If the price is not provided by the user, don't try to parse the string into an
-            // integer value. Use 0 by default.
-            // Determine if this is a new or existing restaurant by checking if mCurrentRestaurantUri is null or not
-            if (mCurrentRestaurantUri == null) {
-                // This is a NEW restaurant, so insert a new restaurant into the provider,
-                // returning the content URI for the new restaurant.
-                Uri newUri = getContentResolver().insert(VisitedRestaurantEntry.CONTENT_URI, values);
+            AsyncSaveTask task = new AsyncSaveTask();
+            task.execute(nameString,addressString,phoneString,noteString);
 
-                // Show a toast message depending on whether or not the insertion was successful.
-                if (newUri == null) {
-                    // If the new content URI is null, then there was an error with insertion.
-                    Toast.makeText(this, getString(R.string.editor_insert_restaurant_failed),
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    // Otherwise, the insertion was successful and we can display a toast.
-                    Toast.makeText(this, getString(R.string.editor_insert_restaurant_successful),
-                            Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                // Otherwise this is an EXISTING restaurant, so update the restaurant with content URI: mCurrentRestaurantUri
-                // and pass in the new ContentValues. Pass in null for the selection and selection args
-                // because mCurrentRestaurantUri will already identify the correct row in the database that
-                // we want to modify.
-                int rowsAffected = getContentResolver().update(mCurrentRestaurantUri, values, null, null);
-
-                // Show a toast message depending on whether or not the update was successful.
-                if (rowsAffected == 0) {
-                    // If no rows were affected, then there was an error with the update.
-                    Toast.makeText(this, getString(R.string.editor_update_restaurant_failed),
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    // Otherwise, the update was successful and we can display a toast.
-                    Toast.makeText(this, getString(R.string.editor_update_restaurant_succesful),
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
             finish();
         }
     }
@@ -453,5 +433,83 @@ public class VisitedRestaurantFormActivity extends AppCompatActivity
 
         // Show dialog that there are unsaved changes
         showUnsavedChangesDialog(discardButtonClickListener);
+    }
+
+    private class AsyncSaveTask extends AsyncTask<String, Void, ContentValues> {
+        private final String LOG_TAG = AsyncSaveTask.class.getSimpleName();
+
+        @Override
+        protected ContentValues doInBackground(String... textsToAnalyse) {
+
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //textView.setText("what is happening inside a thread - we are running Watson AlchemyAPI");
+                }
+            });
+
+            // Create a ContentValues object where column names are the keys,
+            // and restaurant attributes from the editor are the values.
+            ContentValues values = new ContentValues();
+            values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_NAME, textsToAnalyse[0]);
+            values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_ADDRESS, textsToAnalyse[1]);
+            values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_PHONE, textsToAnalyse[2]);
+            values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_NOTE, textsToAnalyse[3]);
+
+            // get sentiment
+            mSentiment = AiSentiment(textsToAnalyse[3]);
+
+            return values;
+        }
+
+        //setting the value of UI outside of the thread
+        @Override
+        protected void onPostExecute(ContentValues values) {
+            // set up images
+            if (mSentiment <= .25 && mSentiment >= -0.25) // neutral
+                values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_IMAGE, ImageUtils.getBytes(mNeutralImage));
+            else if (mSentiment > .25) // positive
+                values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_IMAGE, ImageUtils.getBytes(mPositiveImage));
+            else if (mSentiment < -0.25) // negative
+                values.put(VisitedRestaurantEntry.COLUMN_RESTAURANT_IMAGE, ImageUtils.getBytes(mNegativeImage));
+
+            // If the price is not provided by the user, don't try to parse the string into an
+            // integer value. Use 0 by default.
+            // Determine if this is a new or existing restaurant by checking if mCurrentRestaurantUri is null or not
+            if (mCurrentRestaurantUri == null) {
+                // This is a NEW restaurant, so insert a new restaurant into the provider,
+                // returning the content URI for the new restaurant.
+                Uri newUri = getContentResolver().insert(VisitedRestaurantEntry.CONTENT_URI, values);
+
+                // Show a toast message depending on whether or not the insertion was successful.
+                if (newUri == null) {
+                    // If the new content URI is null, then there was an error with insertion.
+                    Toast.makeText(VisitedRestaurantFormActivity.this, getString(R.string.editor_insert_restaurant_failed),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    // Otherwise, the insertion was successful and we can display a toast.
+                    Toast.makeText(VisitedRestaurantFormActivity.this, getString(R.string.editor_insert_restaurant_successful),
+                            Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                // Otherwise this is an EXISTING restaurant, so update the restaurant with content URI: mCurrentRestaurantUri
+                // and pass in the new ContentValues. Pass in null for the selection and selection args
+                // because mCurrentRestaurantUri will already identify the correct row in the database that
+                // we want to modify.
+                int rowsAffected = getContentResolver().update(mCurrentRestaurantUri, values, null, null);
+
+                // Show a toast message depending on whether or not the update was successful.
+                if (rowsAffected == 0) {
+                    // If no rows were affected, then there was an error with the update.
+                    Toast.makeText(VisitedRestaurantFormActivity.this, getString(R.string.editor_update_restaurant_failed),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    // Otherwise, the update was successful and we can display a toast.
+                    Toast.makeText(VisitedRestaurantFormActivity.this, getString(R.string.editor_update_restaurant_succesful),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 }
