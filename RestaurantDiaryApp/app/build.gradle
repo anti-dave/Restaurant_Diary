@@ -20,7 +20,6 @@ android {
 
 dependencies {
     compile 'com.google.code.gson:gson:2.8.2'
-    compile 'com.ibm.watson.developer_cloud:java-sdk:3.7.2'
     compile 'com.android.support:design:26.1.0'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
