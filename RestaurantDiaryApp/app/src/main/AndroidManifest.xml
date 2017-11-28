@@ -54,7 +54,8 @@
             android:name=".VisitedRestaurantFormActivity"
             android:label="@string/activity_form"
             android:parentActivityName=".VisitedRestaurantActivity"
-            android:theme="@style/FormTheme">
+            android:theme="@style/FormTheme"
+            android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".VisitedRestaurantActivity"/>
@@ -64,7 +65,8 @@
             android:name=".ProspectiveRestaurantFormActivity"
             android:label="@string/activity_form"
             android:parentActivityName=".ProspectiveRestaurantActivity"
-            android:theme="@style/FormTheme">
+            android:theme="@style/FormTheme"
+            android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ProspectiveRestaurantActivity"/>
