@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -103,13 +104,15 @@ public class VisitedRestaurantFormActivity extends AppCompatActivity
 
         // If the intent DOES NOT contain a restaurant content URI, then we know that we are
         // creating a new restaurant.
-        if (mCurrentRestaurantUri == null) {
+        if (mCurrentRestaurantUri == null || intent.getStringExtra("NameOfCallingClass") != null) {
             // This is a new restaurant, so change the app bar to say "Add a restaurant"
             setTitle(getString(R.string.editor_activity_title_new_restaurant));
 
             // Invalidate the options menu, so the "Delete" menu option can be hidden.
             // (It doesn't make sense to delete a restaurant that hasn't been created yet.)
             invalidateOptionsMenu();
+
+            mCurrentRestaurantUri = null;
         } else {
             // Otherwise this is an existing restaurant, so change app bar to say "Edit restaurant"
             setTitle(getString(R.string.editor_activity_title_edit_restaurant));

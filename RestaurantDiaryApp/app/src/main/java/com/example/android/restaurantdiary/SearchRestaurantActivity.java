@@ -145,6 +145,8 @@ public class SearchRestaurantActivity extends AppCompatActivity
                                 intent.putExtra("phoneNumber", phoneNumber);
                                 intent.putExtra("rating", rating);
 
+                                intent.putExtra("NameOfCallingClass", SearchRestaurantActivity.this.toString());
+
                                 // Launch the {@link EditorActivity} to display the data for the current pet.
                                 startActivity(intent);
                                 return true;
@@ -165,6 +167,8 @@ public class SearchRestaurantActivity extends AppCompatActivity
                                 intent.putExtra("address", address);
                                 intent.putExtra("phoneNumber", phoneNumber);
                                 intent.putExtra("rating", rating);
+
+                                intent.putExtra("NameOfCallingClass", SearchRestaurantActivity.this.toString());
 
                                 // Launch the {@link EditorActivity} to display the data for the current Restaurant.
                                 startActivity(intent);
