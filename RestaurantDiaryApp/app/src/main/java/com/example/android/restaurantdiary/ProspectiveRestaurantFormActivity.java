@@ -136,6 +136,15 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
         saveButton = (Button) findViewById(R.id.form_visited_button_save);
         deleteButton = (Button) findViewById(R.id.form_visited_button_delete);
 
+        String name = intent.getStringExtra("name");
+        String address = intent.getStringExtra("address");
+        String phone = intent.getStringExtra("phoneNumber");
+        String rating = intent.getStringExtra("rating");
+
+        mNameEditText.setText(name);
+        mAddressEditText.setText(address);
+        mPhoneEditText.setText(phone);
+
         saveButton.setOnTouchListener(mTouchListener);
         deleteButton.setOnTouchListener(mTouchListener);
 
@@ -474,7 +483,6 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
             else if (mSentiment < -0.25) // negative
                 values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_IMAGE, ImageUtils.getBytes(mNegativeImage));
 
-            // If the price is not provided by the user, don't try to parse the string into an
             // integer value. Use 0 by default.
             // Determine if this is a new or existing restaurant by checking if mCurrentRestaurantUri is null or not
             if (mCurrentRestaurantUri == null) {

@@ -135,6 +135,15 @@ public class VisitedRestaurantFormActivity extends AppCompatActivity
         saveButton = (Button) findViewById(R.id.form_visited_button_save);
         deleteButton = (Button) findViewById(R.id.form_visited_button_delete);
 
+        String name = intent.getStringExtra("name");
+        String address = intent.getStringExtra("address");
+        String phone = intent.getStringExtra("phoneNumber");
+        String rating = intent.getStringExtra("rating");
+
+        mNameEditText.setText(name);
+        mAddressEditText.setText(address);
+        mPhoneEditText.setText(phone);
+
         saveButton.setOnTouchListener(mTouchListener);
         deleteButton.setOnTouchListener(mTouchListener);
 
