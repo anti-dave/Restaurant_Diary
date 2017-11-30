@@ -14,6 +14,11 @@
     <string name="main_menu_search">Find a restaurant</string>
     <string name="main_menu_title">My Restaurant Diary</string>
 
+    <!-- Strings visited_restaurant_activityited -->
+
+    <!-- Strings for activity_want to visit -->
+
+
     <!-- Strings for activity_search -->
     <string name="rating_head">Rating</string>
     <string name="search_activity_hint">Lowell</string>
@@ -32,7 +37,7 @@
     <string name="form_button_delete">Delete</string>
     <string name="form_hint_name">Restaurant Name</string>
     <string name="form_hint_address">Street Address</string>
-    <string name="form_hint_note">Begin judgment here! Do not worry, no one else can read this.</string>
+    <string name="form_hint_note">Begin judgment here!</string>
     <string name="form_hint_phone">xxx-xxx-xxxx</string>
 
     <!--Dummy data insert string used in menu-->
