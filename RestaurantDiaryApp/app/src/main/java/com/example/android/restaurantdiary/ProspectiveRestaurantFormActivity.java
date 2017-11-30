@@ -104,13 +104,15 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
 
         // If the intent DOES NOT contain a restaurant content URI, then we know that we are
         // creating a new restaurant.
-        if (mCurrentRestaurantUri == null) {
+        if (mCurrentRestaurantUri == null || intent.getStringExtra("NameOfCallingClass") != null) {
             // This is a new restaurant, so change the app bar to say "Add a restaurant"
             setTitle(getString(R.string.editor_activity_title_new_restaurant));
 
             // Invalidate the options menu, so the "Delete" menu option can be hidden.
             // (It doesn't make sense to delete a restaurant that hasn't been created yet.)
             invalidateOptionsMenu();
+
+            mCurrentRestaurantUri = null;
         } else {
             // Otherwise this is an existing restaurant, so change app bar to say "Edit restaurant"
             setTitle(getString(R.string.editor_activity_title_edit_restaurant));
@@ -135,6 +137,15 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
         mImageView = (ImageView) findViewById(R.id.image);
         saveButton = (Button) findViewById(R.id.form_visited_button_save);
         deleteButton = (Button) findViewById(R.id.form_visited_button_delete);
+
+        String name = intent.getStringExtra("name");
+        String address = intent.getStringExtra("address");
+        String phone = intent.getStringExtra("phoneNumber");
+        String rating = intent.getStringExtra("rating");
+
+        mNameEditText.setText(name);
+        mAddressEditText.setText(address);
+        mPhoneEditText.setText(phone);
 
         saveButton.setOnTouchListener(mTouchListener);
         deleteButton.setOnTouchListener(mTouchListener);
@@ -474,7 +485,6 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
             else if (mSentiment < -0.25) // negative
                 values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_IMAGE, ImageUtils.getBytes(mNegativeImage));
 
-            // If the price is not provided by the user, don't try to parse the string into an
             // integer value. Use 0 by default.
             // Determine if this is a new or existing restaurant by checking if mCurrentRestaurantUri is null or not
             if (mCurrentRestaurantUri == null) {

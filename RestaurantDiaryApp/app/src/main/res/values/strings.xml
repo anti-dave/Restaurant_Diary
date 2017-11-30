@@ -14,8 +14,16 @@
     <string name="main_menu_search">Find a restaurant</string>
     <string name="main_menu_title">My Restaurant Diary</string>
 
+    <!-- Strings visited_restaurant_activityited -->
+
+    <!-- Strings for activity_want to visit -->
+
+
     <!-- Strings for activity_search -->
-    <string name="search_activity_user_input">City/Town</string>
+    <string name="rating_head">Rating</string>
+    <string name="search_activity_hint">Lowell</string>
+    <string name="search_activity_name_input">Find</string>
+    <string name="search_activity_location_input">Near</string>
     <string name="loading_indicator">Enter to find a new place to eat</string>
     <string name="no_internet_connection">There\'s no internet connection</string>
     <string name="no_restaurants">Enter to find a new place to eat</string>
