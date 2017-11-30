@@ -228,7 +228,9 @@ public class RestaurantProvider extends ContentProvider {
     private int updateRestaurant(Uri uri, ContentValues values,
                                  String selection, String[] selectionArgs) {
         String tableName = null;
-        String columnRestaurantName = null;;
+        String columnRestaurantName = null;
+
+        Log.e("WOW", uri.toString());
 
         final int match = sUriMatcher.match(uri);
         switch (match) {
@@ -254,6 +256,7 @@ public class RestaurantProvider extends ContentProvider {
         }
 
         SQLiteDatabase database = mDBHelper.getWritableDatabase();
+        Log.e("WOW", tableName);
         int rowsUpdated = database.update(tableName, values,
                 selection, selectionArgs);
 
