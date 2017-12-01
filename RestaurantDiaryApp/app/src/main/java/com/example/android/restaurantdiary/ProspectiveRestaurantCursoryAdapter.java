@@ -60,9 +60,8 @@ public class ProspectiveRestaurantCursoryAdapter extends CursorAdapter {
         // Find individual views that we want to modify in the list item layout
         TextView nameTextView = (TextView) view.findViewById(R.id.restaurant_name);
         TextView addressTextView = (TextView) view.findViewById(R.id.restaurant_address);
-
         ImageView pictureImageView = (ImageView) view.findViewById(R.id.restaurant_image);
-        TextView noPicTextView = (TextView) view.findViewById(R.id.restaurant_no_picture);
+
 
         // Find the columns of item attributes that we're interested in
         int nameColumnIndex = cursor.getColumnIndex(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NAME);
@@ -78,14 +77,9 @@ public class ProspectiveRestaurantCursoryAdapter extends CursorAdapter {
         nameTextView.setText(itemName);
         addressTextView.setText(itemAddress);
 
-        // If the item breed is empty string or null, then use some default text
-        // that says "No Image touch to take one", so the TextView isn't blank.
-        if (itemImage == null) {
-            noPicTextView.setText(R.string.no_available_image);
-        }else {
-            Bitmap decodedImageBitmap = ImageUtils.getImage(itemImage);
-            pictureImageView.setImageBitmap(decodedImageBitmap);
-        }
+        Bitmap decodedImageBitmap = ImageUtils.getImage(itemImage);
+        pictureImageView.setImageBitmap(decodedImageBitmap);
+
 
         return;
     }
