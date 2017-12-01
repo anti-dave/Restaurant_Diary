@@ -37,7 +37,7 @@
     <string name="form_button_delete">Delete</string>
     <string name="form_hint_name">Restaurant Name</string>
     <string name="form_hint_address">Street Address</string>
-    <string name="form_hint_note">Begin judgment here!</string>
+    <string name="form_hint_note">Begin judgment here! Do not worry, no one else can read this.</string>
     <string name="form_hint_phone">xxx-xxx-xxxx</string>
 
     <!--Dummy data insert string used in menu-->
