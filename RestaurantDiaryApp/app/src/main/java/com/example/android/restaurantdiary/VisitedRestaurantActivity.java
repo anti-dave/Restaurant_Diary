@@ -68,15 +68,15 @@ public class VisitedRestaurantActivity extends AppCompatActivity implements Load
         mNegativeImage = BitmapFactory.decodeResource(getApplicationContext().getResources(),
                 R.drawable.ic_dislike);
 
-        // Find the ListView which will be populated with the pet data
+        // Find the ListView which will be populated with the Restaurant data
         ListView itemListView = (ListView) findViewById(R.id.list_visited);
 
         // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
         View emptyView = findViewById(R.id.empty_view);
         itemListView.setEmptyView(emptyView);
 
-        // Setup an Adapter to create a list item for each row of pet data in the Cursor.
-        // There is no pet data yet (until the loader finishes) so pass in null for the Cursor.
+        // Setup an Adapter to create a list item for each row of Restaurant data in the Cursor.
+        // There is no Restaurant data yet (until the loader finishes) so pass in null for the Cursor.
         mCursorAdapter = new VisitedRestaurantCursoryAdapter(this, null);
         itemListView.setAdapter(mCursorAdapter);
 
@@ -87,7 +87,7 @@ public class VisitedRestaurantActivity extends AppCompatActivity implements Load
                 // Create new intent to go to {@link EditorActivity}
                 Intent intent = new Intent(VisitedRestaurantActivity.this, VisitedRestaurantFormActivity.class);
 
-                // Form the content URI that represents the specific pet that was clicked on,
+                // Form the content URI that represents the specific Restaurant that was clicked on,
                 // by appending the "id" (passed as input to this method) onto the
                 // {@link VisitedRestaurantEntry#CONTENT_URI}.
                 Uri currentRestaurantUri =
@@ -96,7 +96,7 @@ public class VisitedRestaurantActivity extends AppCompatActivity implements Load
                 // Set the URI on the data field of the intent
                 intent.setData(currentRestaurantUri);
 
-                // Launch the {@link EditorActivity} to display the data for the current pet.
+                // Launch the {@link EditorActivity} to display the data for the current Restaurant.
                 startActivity(intent);
             }
         });
@@ -178,7 +178,7 @@ public class VisitedRestaurantActivity extends AppCompatActivity implements Load
      */
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        // Update {@link RestaurantCursorAdapter} with this new cursor containing updated pet data
+        // Update {@link RestaurantCursorAdapter} with this new cursor containing updated Restaurant data
         mCursorAdapter.swapCursor(data);
     }
 
