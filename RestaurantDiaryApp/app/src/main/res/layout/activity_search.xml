@@ -23,7 +23,7 @@
             android:hint="@string/search_activity_location_input" />
         <Button
             android:id="@+id/button"
-            android:text="search"
+            android:text="@string/search_activity_button_label"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
@@ -38,6 +38,7 @@
         android:orientation="vertical"
         tools:context="com.example.android.restaurantdiary.SearchRestaurantActivity"
         android:id="@+id/restaurant_in_search_list"
+        style="@style/ListViewStyle"
         />
 
     <!-- Empty view is only visible when the list has no items. -->

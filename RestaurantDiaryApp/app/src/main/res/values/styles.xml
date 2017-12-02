@@ -65,7 +65,6 @@
         <style name="FormLabelNoteStyle">
             <item name="android:layout_height">wrap_content</item>
             <item name="android:layout_width">match_parent</item>
-            <!--<item name="android:padding">16dp</item>-->
             <item name="android:textAppearance">?android:textAppearanceSmall</item>
             <item name="android:textColor">@color/formTextColor</item>
         </style>
@@ -104,7 +103,13 @@
         <item name="android:background">@color/ListViewGrey</item>
         <item name="android:cacheColorHint">@android:color/transparent</item>
         <item name="android:divider">@android:color/transparent</item>
-        <item name="android:dividerHeight">1dp</item>
+        <item name="android:dividerHeight">4dp</item>
+    </style>
+
+    <!-- text formatting the the search list items -->
+    <style name="searchItemBodyStyle">
+        <item name="android:textColor">@color/searchRestaurantTextColor</item>
+        <item name="android:textSize">11sp</item>
     </style>
 
 </resources>

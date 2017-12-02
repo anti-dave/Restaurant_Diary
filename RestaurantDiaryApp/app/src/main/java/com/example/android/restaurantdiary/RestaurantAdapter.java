@@ -76,13 +76,6 @@ public class RestaurantAdapter  extends ArrayAdapter<Restaurant> {
         // set this text on the number TextView
         ratingTextView.setText(currentRestaurant.getRating());
 
-        /**
-         * This changes the background color for each odd member of the list, for viewing purposes
-         * */
-        if(position % 2 == 1) {
-            restaurantView.setBackgroundColor(Color.LTGRAY);
-        }
-
         return listItemView;
     }
 
