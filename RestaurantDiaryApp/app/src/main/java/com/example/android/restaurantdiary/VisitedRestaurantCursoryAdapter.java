@@ -45,8 +45,8 @@ public class VisitedRestaurantCursoryAdapter extends CursorAdapter {
     }
 
     /**
-     * This method binds the pet data (in the current row pointed to by cursor) to the given
-     * list item layout. For example, the name for the current pet can be set on the name TextView
+     * This method binds the Restaurant data (in the current row pointed to by cursor) to the given
+     * list item layout. For example, the name for the current Restaurant can be set on the name TextView
      * in the list item layout.
      *
      * @param view    Existing view, returned earlier by newView() method

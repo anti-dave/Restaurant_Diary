@@ -147,7 +147,7 @@ public class SearchRestaurantActivity extends AppCompatActivity
 
                                 intent.putExtra("NameOfCallingClass", SearchRestaurantActivity.this.toString());
 
-                                // Launch the {@link EditorActivity} to display the data for the current pet.
+                                // Launch the {@link EditorActivity} to display the data for the current Restaurant.
                                 startActivity(intent);
                                 return true;
 
