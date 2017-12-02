@@ -14,4 +14,7 @@
     <color name="ListItemDefault">#519fff</color>
     <color name="colorWhite">#ffffff</color>
     <color name="emptyListViewTextColor">#A2AAB0</color>
+    <color name="searchRestaurantNameColor">#000000</color>
+    <color name="searchRestaurantTextColor">#303030</color>
+    <color name="searchTextColorDarker">#232323</color>
 </resources>

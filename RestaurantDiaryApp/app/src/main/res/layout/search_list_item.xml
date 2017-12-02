@@ -3,37 +3,93 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <TextView
+    android:orientation="vertical"
+    android:background="@drawable/list_item_selector"
+    android:padding="8dp">
+    
+    <TextView 
         android:id="@+id/search_name"
         android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        />
-    <TextView
-        android:id="@+id/search_type_of_food"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        />
-    <TextView
-        android:id="@+id/search_address"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        />
-    <TextView
-        android:id="@+id/search_phone"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        />
-    <TextView
-        android:id="@+id/search_rating"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        />
+        android:textColor="@color/searchRestaurantNameColor"
+        android:paddingBottom="4dp"
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content"/>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="2dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_food_type"
+            style="@style/searchItemBodyStyle"/>
+        <TextView
+            android:id="@+id/search_type_of_food"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/searchTextColorDarker"
+            />
+        
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="2dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_address"
+            style="@style/searchItemBodyStyle"/>
+        <TextView
+            android:id="@+id/search_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/searchTextColorDarker"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="2dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_phone"
+            style="@style/searchItemBodyStyle"/>
+
+        <TextView
+            android:id="@+id/search_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/searchTextColorDarker"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="2dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_rating"
+            style="@style/searchItemBodyStyle"/>
+
+        <TextView
+            android:id="@+id/search_rating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/searchTextColorDarker"
+            />
+    </LinearLayout>
 </LinearLayout>

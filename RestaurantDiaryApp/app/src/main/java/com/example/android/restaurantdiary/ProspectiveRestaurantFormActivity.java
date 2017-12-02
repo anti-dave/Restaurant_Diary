@@ -56,12 +56,6 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
     /** Content URI for the existing restaurant (null if it's a new restaurant) */
     private Uri mCurrentRestaurantUri;
 
-    /** Save Button */
-    private Button saveButton;
-
-    /** Delete Button */
-    private Button deleteButton;
-
     /** Boolean flag that keeps track of whether the restaurant
      *  has been edited (true) or not (false) */
     private boolean mRestaurantHasChanged = false;
@@ -95,7 +89,7 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_form_visited);
+        setContentView(R.layout.activity_form);
 
         // Examine the intent that was used to launch this activity,
         // in order to figure out if we're creating a new restaurant or editing an existing one.
@@ -135,8 +129,6 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
         mPhoneEditText = (EditText) findViewById(R.id.form_visited_phone);
         mNoteEditText = (EditText) findViewById(R.id.form_visited_note);
         mImageView = (ImageView) findViewById(R.id.image);
-        saveButton = (Button) findViewById(R.id.form_visited_button_save);
-        deleteButton = (Button) findViewById(R.id.form_visited_button_delete);
 
         String name = intent.getStringExtra("name");
         String address = intent.getStringExtra("address");
@@ -147,29 +139,10 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
         mAddressEditText.setText(address);
         mPhoneEditText.setText(phone);
 
-        saveButton.setOnTouchListener(mTouchListener);
-        deleteButton.setOnTouchListener(mTouchListener);
-
         mNameEditText.setOnTouchListener(mTouchListener);
         mAddressEditText.setOnTouchListener(mTouchListener);
         mPhoneEditText.setOnTouchListener(mTouchListener);
         mNoteEditText.setOnTouchListener(mTouchListener);
-
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Save restaurant to database
-                saveRestaurant();
-                // Exit activity
-            }
-        });
-
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDeleteConfirmationDialog();
-            }
-        });
 
     }
 
