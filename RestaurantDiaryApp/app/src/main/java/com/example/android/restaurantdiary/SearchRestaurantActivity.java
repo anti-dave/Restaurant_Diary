@@ -66,7 +66,7 @@ public class SearchRestaurantActivity extends AppCompatActivity
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         itemListView.setEmptyView(mEmptyStateTextView);
 
-        // Create a new adapter that takes an empty list of news as input
+        // Create a new adapter that takes an empty list of restaurants as input
         mAdapter = new RestaurantAdapter(this, new ArrayList<Restaurant>());
 
         // Set the adapter on the {@link ListView}
@@ -80,9 +80,10 @@ public class SearchRestaurantActivity extends AppCompatActivity
         // Get details on the currently active default data network
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
-        Button DavesButton = findViewById(R.id.button);
+        Button submitButton = findViewById(R.id.button);
 
-        DavesButton.setOnClickListener(new View.OnClickListener() {
+        //submit button onclick listener to reload restaurant loader
+        submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -108,8 +109,7 @@ public class SearchRestaurantActivity extends AppCompatActivity
             }
         });
 
-        //OnClickListener for ListView Items. OnClick,
-        // Setup the item click listener
+        // Setup the item click listener to bring up popupmenu
         itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, final long id) {

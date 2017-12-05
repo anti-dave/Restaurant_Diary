@@ -31,10 +31,15 @@ public final class QueryUtils {
     /** Tag for the log messages */
     private static final String LOG_TAG = QueryUtils.class.getSimpleName();
 
+    /** Client Key & Secret, issued by Yelp upon registering app**/
     private static final String authKey = "vC80EX7PMl3g4JYrLlvzng";
     private static final String authSecret = "fIFKCvMP970Sl0jTLToCVcRJvV5twrWCFCAJLwUzgiM1dUaylgUyZTZuoD9Wrlhg";
+
+    /** Authorization Key Request Parameter  **/
     private static final String authGrantType = "client_credentials";
 
+    /** Authorization Key Token request URL,
+     * with bearerToken and Token type return type variables **/
     private static final String tokenURL = "https://api.yelp.com/oauth2/token";
     public static String bearerToken= "";
     public static String tokenType = "";
@@ -45,15 +50,18 @@ public final class QueryUtils {
     private QueryUtils() {
     }
 
-    /** Query the YELP API and return a list of {@link Restaurant} objects. */
+    /** Query the YELP API and return a list of {@link Restaurant} objects.
+     * First requesting Token through Get Request and credentials
+     * Then requesting the JSON data through the Post request to Yelp API*/
     public static List<Restaurant> fetchYelpData(String requestUrl) {
-        // Create URL object
+
+        /** Create URL objects to send requests through**/
         URL searchUrl = createUrl(requestUrl);
         URL authUrl = createUrl(tokenURL);
 
-        // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
 
+        /** Perform HTTP request to the URL and receive a JSON response back to set the Bearer Token**/
         if(bearerToken == "") {
             try {
                 jsonResponse = sendPOSTHttpRequest(authUrl);
@@ -61,16 +69,17 @@ public final class QueryUtils {
                 Log.e(LOG_TAG, "Problem making HTTP POST request.", e);
             }
 
-            //currently public void, no return string, I like this approach
+            /** on successful post request, extract results from json**/
             extractTokenJSONResults(jsonResponse);
         }
+        /** Perform HTTP request to the URL and receive a JSON response back of restaurant query data**/
         try {
             jsonResponse = sendGETHttpRequest(searchUrl);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem making the HTTP GET request.", e);
         }
 
-        // Extract relevant fields from the JSON response and create a list of {@link YelpBusiness}s
+        /** Extract relevant fields from the JSON response and create a list of {@link YelpBusiness}s**/
         List<Restaurant> yelpBusinesses = extractRestaurantFromJson(jsonResponse);
 
         // Return the list of {@link YelpBusiness}s
@@ -79,6 +88,9 @@ public final class QueryUtils {
 
     /**
      * Returns new URL object from the given string URL.
+     *
+     * @param stringUrl
+     * @return URL created
      */
     private static URL createUrl(String stringUrl) {
         URL url = null;
@@ -90,6 +102,12 @@ public final class QueryUtils {
         return url;
     }
 
+    /**
+     * Returns JSON body for Bearer Token
+     *
+     * @param url
+     * @return JSON response created
+     */
     private static String sendPOSTHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
 
@@ -102,8 +120,8 @@ public final class QueryUtils {
         OutputStream outputStream = null;
         BufferedReader reader = null;
 
-        // URL Encoding
-        // Create data variable for sent values to server
+        /** URL  to send over outBuffer
+          Create data variable for sent values to server **/
         String data = URLEncoder.encode("grant_type", "UTF-8")
                 + "=" + URLEncoder.encode(authGrantType, "UTF-8");
 
@@ -113,18 +131,20 @@ public final class QueryUtils {
         data += "&" + URLEncoder.encode("client_secret", "UTF-8")
                 + "=" + URLEncoder.encode(authSecret, "UTF-8");
 
-        //send data
+        /** Send Request Parameters and properties**/
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setReadTimeout(10000 /* milliseconds */);
             urlConnection.setConnectTimeout(15000 /* milliseconds */);
-            //Confirm we're sending request body.
+
+            /**Confirm we're sending request body.**/
             urlConnection.setDoOutput(true);
             urlConnection.setDoInput(true);
             urlConnection.setRequestMethod("POST");
             urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
             urlConnection.connect();
 
+            /** output stream to send body data for request **/
             outputStream = urlConnection.getOutputStream();
             outputStream.write(data.getBytes());
             outputStream.flush();
@@ -155,8 +175,12 @@ public final class QueryUtils {
         return jsonResponse;
     }
 
-
-    /** Make an HTTP request to the given URL and return a String as the response. */
+    /**
+     * Make an HTTP request to the given URL and return a String as the response.
+     *
+     * @param url
+     * @return JSON response created
+     */
     private static String sendGETHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
 
@@ -165,6 +189,7 @@ public final class QueryUtils {
             return jsonResponse;
         }
 
+        /** Send Request Parameters and properties**/
         HttpURLConnection urlConnection = null;
         InputStream inputStream = null;
         try {
@@ -199,8 +224,13 @@ public final class QueryUtils {
         return jsonResponse;
     }
 
-    /** Convert the {@link InputStream} into a String which contains the
-     * whole JSON response from the server. */
+    /**
+     * Convert the {@link InputStream} into a String which contains the
+     * whole JSON response from the server.
+     *
+     * @param inputStream
+     * @return whole JSON response
+     */
     private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
         if (inputStream != null) {
@@ -215,6 +245,12 @@ public final class QueryUtils {
         return output.toString();
     }
 
+    /**
+     * Extract the token and token type from json results
+     * and change global variables
+     * @param authJSON
+     * @return bearer token and token type
+     */
     private static void extractTokenJSONResults (String authJSON) {
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(authJSON)) {
@@ -233,8 +269,12 @@ public final class QueryUtils {
         }
     }
 
-    /** Return a list of {@link Restaurant} objects that has been built up from
-     * parsing the given JSON response. */
+    /**
+     * Return a list of {@link Restaurant} objects that has been built up from
+     * parsing the given JSON response.
+     * @param yelpJSON
+     * @return list of restaurants
+     */
     private static List<Restaurant> extractRestaurantFromJson(String yelpJSON) {
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(yelpJSON)) {
