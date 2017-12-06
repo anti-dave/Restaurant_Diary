@@ -8,6 +8,10 @@ import android.widget.Button;
 import android.graphics.drawable.AnimationDrawable;
 import android.widget.LinearLayout;
 
+/**
+ * MainActivity is the activity called at startup of app.
+ */
+
 public class MainActivity extends AppCompatActivity {
 
 

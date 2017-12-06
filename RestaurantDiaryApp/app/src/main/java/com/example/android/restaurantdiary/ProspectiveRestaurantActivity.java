@@ -24,7 +24,12 @@ import android.widget.ListView;
 import com.example.android.restaurantdiary.data.RestaurantContract.ProspectiveRestaurantEntry;
 import com.example.android.restaurantdiary.utils.ImageUtils;
 
-public class ProspectiveRestaurantActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+/**
+ *
+ */
+
+public class ProspectiveRestaurantActivity extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<Cursor> {
 
     /** Logger tag */
     public static final String LOG_TAG = ProspectiveRestaurantActivity.class.getSimpleName();
@@ -39,7 +44,6 @@ public class ProspectiveRestaurantActivity extends AppCompatActivity implements 
 
     private Double mSentiment;
 
-    // not sure if the loader should be the same as visited loader
     private static final int RESTAURANT_LOADER = 1;
 
     /**
@@ -56,7 +60,8 @@ public class ProspectiveRestaurantActivity extends AppCompatActivity implements 
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ProspectiveRestaurantActivity.this, ProspectiveRestaurantFormActivity.class);
+                Intent intent = new Intent(ProspectiveRestaurantActivity.this,
+                        ProspectiveRestaurantFormActivity.class);
                 startActivity(intent);
             }
         });
@@ -77,7 +82,8 @@ public class ProspectiveRestaurantActivity extends AppCompatActivity implements 
         itemListView.setEmptyView(emptyView);
 
         // Setup an Adapter to create a list item for each row of Restaurant data in the Cursor.
-        // There is no Restaurant data yet (until the loader finishes) so pass in null for the Cursor.
+        // There is no Restaurant data yet (until the loader finishes)
+        // so pass in null for the Cursor.
         mCursorAdapter = new ProspectiveRestaurantCursoryAdapter(this, null);
         itemListView.setAdapter(mCursorAdapter);
 
@@ -86,7 +92,8 @@ public class ProspectiveRestaurantActivity extends AppCompatActivity implements 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 // Create new intent to go to {@link EditorActivity}
-                Intent intent = new Intent(ProspectiveRestaurantActivity.this, ProspectiveRestaurantFormActivity.class);
+                Intent intent = new Intent(ProspectiveRestaurantActivity.this,
+                        ProspectiveRestaurantFormActivity.class);
 
                 // Form the content URI that represents the specific Restaurant that was clicked on,
                 // by appending the "id" (passed as input to this method) onto the
@@ -137,7 +144,8 @@ public class ProspectiveRestaurantActivity extends AppCompatActivity implements 
     }
 
     /**
-     * Helper method to insert hardcoded item data into the database. For debugging purposes only.
+     * Helper method to insert hardcoded restaurant data into the database.
+     * For debugging purposes only.
      */
     private void insertDummyItem() {
 
@@ -179,7 +187,8 @@ public class ProspectiveRestaurantActivity extends AppCompatActivity implements 
      */
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        // Update {@link RestaurantCursorAdapter} with this new cursor containing updated Restaurant data
+        // Update {@link RestaurantCursorAdapter} with this new cursor
+        // containing updated Restaurant data
         mCursorAdapter.swapCursor(data);
     }
 
@@ -200,7 +209,7 @@ public class ProspectiveRestaurantActivity extends AppCompatActivity implements 
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    //textView.setText("what is happening inside a thread - we are running Watson AlchemyAPI");
+
                 }
             });
 
@@ -222,13 +231,16 @@ public class ProspectiveRestaurantActivity extends AppCompatActivity implements 
         protected void onPostExecute(ContentValues values) {
 
             if (mSentiment <= .25 && mSentiment >= -0.25) // neutral
-                values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_IMAGE, ImageUtils.getBytes(mNeutralImage));
+                values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_IMAGE,
+                        ImageUtils.getBytes(mNeutralImage));
             else if (mSentiment > .25) // positive
-                values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_IMAGE, ImageUtils.getBytes(mPositiveImage));
+                values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_IMAGE,
+                        ImageUtils.getBytes(mPositiveImage));
             else if (mSentiment < -0.25) // negative
-                values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_IMAGE, ImageUtils.getBytes(mNegativeImage));
+                values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_IMAGE,
+                        ImageUtils.getBytes(mNegativeImage));
 
-            Uri newUri = getContentResolver().insert(ProspectiveRestaurantEntry.CONTENT_URI, values);
+            getContentResolver().insert(ProspectiveRestaurantEntry.CONTENT_URI, values);
         }
     }
 

@@ -230,16 +230,16 @@ public class RestaurantProvider extends ContentProvider {
         String tableName = null;
         String columnRestaurantName = null;
 
-        Log.e("WOW", uri.toString());
-
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case VISITED_RESTAURANT_ID:
-                columnRestaurantName = values.getAsString(VisitedRestaurantEntry.COLUMN_RESTAURANT_NAME);
+                columnRestaurantName = values.getAsString(
+                        VisitedRestaurantEntry.COLUMN_RESTAURANT_NAME);
                 tableName = VisitedRestaurantEntry.TABLE_NAME;
                 break;
             case PROSPECTIVE_RESTAURANT_ID:
-                columnRestaurantName = values.getAsString(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NAME);
+                columnRestaurantName = values.getAsString(
+                        ProspectiveRestaurantEntry.COLUMN_RESTAURANT_NAME);
                 tableName = ProspectiveRestaurantEntry.TABLE_NAME;
                 break;
         }
@@ -256,7 +256,7 @@ public class RestaurantProvider extends ContentProvider {
         }
 
         SQLiteDatabase database = mDBHelper.getWritableDatabase();
-        Log.e("WOW", tableName);
+
         int rowsUpdated = database.update(tableName, values,
                 selection, selectionArgs);
 
@@ -282,23 +282,27 @@ public class RestaurantProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case VISITED_RESTAURANTS:
-                rowsDeleted = database.delete(VisitedRestaurantEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database.delete(VisitedRestaurantEntry.TABLE_NAME, selection,
+                        selectionArgs);
                 break;
 
             case VISITED_RESTAURANT_ID:
                 selection = VisitedRestaurantEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
-                rowsDeleted = database.delete(VisitedRestaurantEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database.delete(VisitedRestaurantEntry.TABLE_NAME, selection,
+                        selectionArgs);
                 break;
 
             case PROSPECTIVE_RESTAURANTS:
-                rowsDeleted = database.delete(ProspectiveRestaurantEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database.delete(ProspectiveRestaurantEntry.TABLE_NAME, selection,
+                        selectionArgs);
                 break;
 
             case PROSPECTIVE_RESTAURANT_ID:
                 selection = ProspectiveRestaurantEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
-                rowsDeleted = database.delete(ProspectiveRestaurantEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = database.delete(ProspectiveRestaurantEntry.TABLE_NAME, selection,
+                        selectionArgs);
                 break;
 
             default:

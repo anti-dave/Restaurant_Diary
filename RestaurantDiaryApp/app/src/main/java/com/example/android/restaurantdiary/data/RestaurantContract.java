@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
- * API Contract for the restaurantdiary app.
+ * API Contract for the restaurantdiary app data.
  */
 
 public final class RestaurantContract {
@@ -45,19 +45,22 @@ public final class RestaurantContract {
     public static final class VisitedRestaurantEntry implements BaseColumns {
 
         /** The content URI to access the restaurant data in the provider */
-        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_VISITED_RESTAURANT);
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI,
+                PATH_VISITED_RESTAURANT);
 
         /**
          * The MIME type of the {@link #CONTENT_URI} for a list of restaurants.
          */
         public static final String CONTENT_LIST_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_VISITED_RESTAURANT;
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/"
+                        + PATH_VISITED_RESTAURANT;
 
         /**
          * The MIME type of the {@link #CONTENT_URI} for a single restaurant.
          */
         public static final String CONTENT_RESTAURANT_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_VISITED_RESTAURANT;
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/"
+                        + PATH_VISITED_RESTAURANT;
 
         /** Name of database table for restaurants */
         public final static String TABLE_NAME = "visitedrestaurant";
@@ -113,19 +116,22 @@ public final class RestaurantContract {
     public static final class ProspectiveRestaurantEntry implements BaseColumns {
 
         /** The content URI to access the restaurant data in the provider */
-        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_PROSPECTIVE_RESTAURANT);
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI,
+                PATH_PROSPECTIVE_RESTAURANT);
 
         /**
          * The MIME type of the {@link #CONTENT_URI} for a list of restaurants.
          */
         public static final String CONTENT_LIST_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PROSPECTIVE_RESTAURANT;
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/"
+                        + PATH_PROSPECTIVE_RESTAURANT;
 
         /**
          * The MIME type of the {@link #CONTENT_URI} for a single restaurant.
          */
         public static final String CONTENT_RESTAURANT_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PROSPECTIVE_RESTAURANT;
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/"
+                        + PATH_PROSPECTIVE_RESTAURANT;
 
         /** Name of database table for restaurants */
         public final static String TABLE_NAME = "prospectiverestaurant";
