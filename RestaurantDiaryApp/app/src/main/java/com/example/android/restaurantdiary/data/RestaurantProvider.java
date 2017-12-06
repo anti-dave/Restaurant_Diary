@@ -230,8 +230,6 @@ public class RestaurantProvider extends ContentProvider {
         String tableName = null;
         String columnRestaurantName = null;
 
-        Log.e("WOW", uri.toString());
-
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case VISITED_RESTAURANT_ID:
@@ -256,7 +254,7 @@ public class RestaurantProvider extends ContentProvider {
         }
 
         SQLiteDatabase database = mDBHelper.getWritableDatabase();
-        Log.e("WOW", tableName);
+
         int rowsUpdated = database.update(tableName, values,
                 selection, selectionArgs);
 

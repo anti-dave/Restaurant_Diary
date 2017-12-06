@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
- * API Contract for the restaurantdiary app.
+ * API Contract for the restaurantdiary app data.
  */
 
 public final class RestaurantContract {

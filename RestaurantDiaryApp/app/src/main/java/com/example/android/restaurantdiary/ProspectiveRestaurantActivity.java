@@ -24,6 +24,10 @@ import android.widget.ListView;
 import com.example.android.restaurantdiary.data.RestaurantContract.ProspectiveRestaurantEntry;
 import com.example.android.restaurantdiary.utils.ImageUtils;
 
+/**
+ *
+ */
+
 public class ProspectiveRestaurantActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     /** Logger tag */
@@ -39,7 +43,6 @@ public class ProspectiveRestaurantActivity extends AppCompatActivity implements 
 
     private Double mSentiment;
 
-    // not sure if the loader should be the same as visited loader
     private static final int RESTAURANT_LOADER = 1;
 
     /**
@@ -137,7 +140,7 @@ public class ProspectiveRestaurantActivity extends AppCompatActivity implements 
     }
 
     /**
-     * Helper method to insert hardcoded item data into the database. For debugging purposes only.
+     * Helper method to insert hardcoded restaurant data into the database. For debugging purposes only.
      */
     private void insertDummyItem() {
 
@@ -200,7 +203,7 @@ public class ProspectiveRestaurantActivity extends AppCompatActivity implements 
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    //textView.setText("what is happening inside a thread - we are running Watson AlchemyAPI");
+
                 }
             });
 
@@ -228,7 +231,7 @@ public class ProspectiveRestaurantActivity extends AppCompatActivity implements 
             else if (mSentiment < -0.25) // negative
                 values.put(ProspectiveRestaurantEntry.COLUMN_RESTAURANT_IMAGE, ImageUtils.getBytes(mNegativeImage));
 
-            Uri newUri = getContentResolver().insert(ProspectiveRestaurantEntry.CONTENT_URI, values);
+            getContentResolver().insert(ProspectiveRestaurantEntry.CONTENT_URI, values);
         }
     }
 

@@ -10,16 +10,42 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by Jake on 11/26/2017.
+ * Calculates the AiSentiment using the Watson API.
  */
 
 public class AiSentimentCalculator {
 
+    /** Neutral Value for Watson Sentiment Score */
+    private static final double NEUTRAL_SCORE = 0.0;
+
+    /** String sentiment */
+    private static final String SENTIMENT = "sentiment";
+
+    /** String document */
+    private static final String DOCUMENT = "document";
+
+    /** String score */
+    private static final String SCORE = "score";
+
+    /** Username for Watson API credentials */
     private static final String USERNAME = "9aff14e2-5530-40e8-98f9-fdb8a25e0e7c";
+
+    /** Password for Watson API credentials */
     private static final String PASSWORD = "AZeTU8O1UOSt";
 
+    /** Watson service API object */
+    private static final NaturalLanguageUnderstanding naturalLanguageUnderstanding =
+            new NaturalLanguageUnderstanding(NaturalLanguageUnderstanding.VERSION_DATE_2017_02_27,
+                    USERNAME, PASSWORD);
+
+    /** Sentiment options object */
+    private static final SentimentOptions sentiment = new SentimentOptions.Builder().build();
+
+    /** Features object */
+    private static final Features features = new Features.Builder().sentiment(sentiment).build();
+
     /**
-     * AiSentiment method.
+     * Analyzes the user note and passes back a sentiment score.
      *
      * @param textsToAnalyse the note/text to be analyzed by the ai
      *
@@ -28,41 +54,22 @@ public class AiSentimentCalculator {
     public static Double AiSentiment(String textsToAnalyse){
 
         if(textsToAnalyse.isEmpty() || textsToAnalyse == null){
-            return 0.0;
+            return NEUTRAL_SCORE;
         }
 
+        AnalyzeOptions parameters = new AnalyzeOptions.Builder()
+                .text(textsToAnalyse).features(features).build();
+
         try {
-            NaturalLanguageUnderstanding service = new NaturalLanguageUnderstanding(
-                    NaturalLanguageUnderstanding.VERSION_DATE_2017_02_27,
-                    USERNAME,
-                    PASSWORD
-            );
+            AnalysisResults response = naturalLanguageUnderstanding.analyze(parameters).execute();
 
-            String text = textsToAnalyse;
+            JSONObject responseInJSON = new JSONObject(response.toString());
 
-            SentimentOptions sentiment = new SentimentOptions.Builder().build();
-            Features features = new Features.Builder().sentiment(sentiment).build();
-            AnalyzeOptions parameters = new AnalyzeOptions.Builder().text(text).features(features).build();
-            AnalysisResults response = service.analyze(parameters).execute();
-
-            JSONObject test = new JSONObject();
-            try {
-                test = new JSONObject(response.toString());
-            } catch (JSONException e) {
-                return 0.0;
-            }
-
-            Double sentimentScore = new Double(0.0);
-            try {
-                sentimentScore = test.getJSONObject("sentiment").getJSONObject("document").getDouble("score");
-            } catch (JSONException e) {
-                return 0.0;
-            }
-
-            return sentimentScore;
+            return responseInJSON.getJSONObject(SENTIMENT).getJSONObject(DOCUMENT)
+                    .getDouble(SCORE);
 
         } catch (Exception e){
-            return 0.0;
+            return NEUTRAL_SCORE;
         }
     }
 }
