@@ -325,7 +325,7 @@ public final class QueryUtils {
 
                 // Create a new {@link YelpBusiness} object with the location, time,
                 // and url from the JSON response.
-                Restaurant yelpBusiness = new Restaurant(title, type, phone, address, rating);
+                Restaurant yelpBusiness = new Restaurant(title, type, address, phone, rating);
                 //YelpBusiness yelpBusiness = new YelpBusiness(author, section, location, url);
 
                 // Add the new {@link YelpBusiness} to the list of yelpBusinesses.
