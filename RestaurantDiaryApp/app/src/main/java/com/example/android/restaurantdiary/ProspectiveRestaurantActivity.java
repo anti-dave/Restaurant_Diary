@@ -25,7 +25,7 @@ import com.example.android.restaurantdiary.data.RestaurantContract.ProspectiveRe
 import com.example.android.restaurantdiary.utils.ImageUtils;
 
 /**
- *
+ * Activity to view a listing of restaurants to visit.
  */
 
 public class ProspectiveRestaurantActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
