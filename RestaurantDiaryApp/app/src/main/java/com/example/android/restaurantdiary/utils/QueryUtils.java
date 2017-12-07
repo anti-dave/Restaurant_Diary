@@ -1,6 +1,8 @@
 package com.example.android.restaurantdiary.utils;
 
 /**
+ * Used for fetching yelp data from the yelp API.
+ *
  * Created by dave on 11/3/17.
  */
 import android.text.TextUtils;
@@ -31,8 +33,10 @@ public final class QueryUtils {
     /** Tag for the log messages */
     private static final String LOG_TAG = QueryUtils.class.getSimpleName();
 
-    /** Client Key & Secret, issued by Yelp upon registering app**/
+    /** Client Key, issued by Yelp upon registering app**/
     private static final String authKey = "vC80EX7PMl3g4JYrLlvzng";
+
+    /** Client Secret, issued by Yelp */
     private static final String authSecret = "fIFKCvMP970Sl0jTLToCVcRJvV5twrWCFCAJLwUzgiM1dUaylgUyZTZuoD9Wrlhg";
 
     /** Authorization Key Request Parameter  **/

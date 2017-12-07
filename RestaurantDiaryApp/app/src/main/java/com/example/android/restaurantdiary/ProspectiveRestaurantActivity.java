@@ -25,8 +25,7 @@ import com.example.android.restaurantdiary.data.RestaurantContract.ProspectiveRe
 import com.example.android.restaurantdiary.utils.ImageUtils;
 
 /**
- * this is the Activity to view prospect restaurants
- * you may select them to edit or add new ones
+ * Activity to view a listing of restaurants to visit.
  */
 
 public class ProspectiveRestaurantActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
