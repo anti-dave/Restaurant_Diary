@@ -59,13 +59,13 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
     /** Boolean flag that keeps track of whether the restaurant
      *  has been edited (true) or not (false) */
     private boolean mRestaurantHasChanged = false;
-
+    // stores neutral image
     private Bitmap mNeutralImage;
-
+    // stores positive image
     private Bitmap mPositiveImage;
-
+    // stores negative image
     private Bitmap mNegativeImage;
-
+    // stores the score that the ai returns
     private Double mSentiment;
 
 
@@ -178,6 +178,7 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
         }
     }
 
+    // creates an new loader when the activity is created and initializes the loader
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {
@@ -196,6 +197,7 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
                 null);
     }
 
+    // gets called when loader finishes and cleans up
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         // Bail early if the cursor is null or there is less than 1 row in the cursor
@@ -233,6 +235,7 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
         }
     }
 
+    // resets loader values
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         // Update the views on the screen with the values from the database
@@ -420,6 +423,8 @@ public class ProspectiveRestaurantFormActivity extends AppCompatActivity
         showUnsavedChangesDialog(discardButtonClickListener);
     }
 
+    // this make the when you save the dummy data asynchronous
+    // you need to do this b/c you dont want to stall the gui thread
     private class AsyncSaveTask extends AsyncTask<String, Void, ContentValues> {
         @Override
         protected ContentValues doInBackground(String... textsToAnalyse) {

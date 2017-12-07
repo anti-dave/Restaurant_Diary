@@ -24,21 +24,26 @@ import android.widget.ListView;
 import com.example.android.restaurantdiary.data.RestaurantContract.VisitedRestaurantEntry;
 import com.example.android.restaurantdiary.utils.ImageUtils;
 
+/**
+ * this is the Activity to view visited restaurants
+ * you may select them to edit or add new ones
+ */
+
 public class VisitedRestaurantActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     /** Logger tag */
     public static final String LOG_TAG = VisitedRestaurantActivity.class.getSimpleName();
 
     private VisitedRestaurantCursoryAdapter mCursorAdapter;
-
+    // holds loader id
     private static final int RESTAURANT_LOADER = 0;
-
+    // stores neutral image
     private Bitmap mNeutralImage;
-
+    // stores positive image
     private Bitmap mPositiveImage;
-
+    // stores negative image
     private Bitmap mNegativeImage;
-
+    // stores the score that the ai returns
     private Double mSentiment;
 
     @Override
@@ -191,6 +196,8 @@ public class VisitedRestaurantActivity extends AppCompatActivity implements Load
         mCursorAdapter.swapCursor(null);
     }
 
+    // this make the when you save the dummy data asynchronous
+    // you need to do this b/c you dont want to stall the gui thread
     private class AsyncSaveDummyInfoTask extends AsyncTask<String, Void, ContentValues> {
         @Override
         protected ContentValues doInBackground(String... textsToAnalyse) {
