@@ -25,24 +25,26 @@ import com.example.android.restaurantdiary.data.RestaurantContract.ProspectiveRe
 import com.example.android.restaurantdiary.utils.ImageUtils;
 
 /**
- *
+ * this is the Activity to view prospect restaurants
+ * you may select them to edit or add new ones
  */
 
 public class ProspectiveRestaurantActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     /** Logger tag */
     public static final String LOG_TAG = ProspectiveRestaurantActivity.class.getSimpleName();
-
+    // holds the cursoryAdapter
     private ProspectiveRestaurantCursoryAdapter mCursorAdapter;
-
+    // stores neutral image
     private Bitmap mNeutralImage;
-
+    // stores positive image
     private Bitmap mPositiveImage;
-
+    // stores negative image
     private Bitmap mNegativeImage;
-
+    // stores the score that the ai returns
     private Double mSentiment;
 
+    // hold loader id
     private static final int RESTAURANT_LOADER = 1;
 
     /**
@@ -194,7 +196,8 @@ public class ProspectiveRestaurantActivity extends AppCompatActivity implements 
         // Callback called when the data needs to be deleted
         mCursorAdapter.swapCursor(null);
     }
-
+    // this make the when you save the dummy data asynchronous
+    // you need to do this b/c you dont want to stall the gui thread
     private class AsyncSaveDummyInfoTask extends AsyncTask<String, Void, ContentValues> {
         @Override
         protected ContentValues doInBackground(String... textsToAnalyse) {
