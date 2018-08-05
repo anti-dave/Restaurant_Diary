@@ -9,6 +9,7 @@ git clone https://github.com/anti-dave/Restaurant_Diary.git
 ```
 
 and then import the internal RestaurantDiaryApp in android studio 
+
 :file_folder:Restaurant Diary
 - :file_folder: final_week_12_7
 - :file_folder: progress
