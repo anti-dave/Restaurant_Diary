@@ -1,7 +1,7 @@
 # RestaurantDiary
 by: Jake Adamson, Dave DaCosta, Rob Cucchiara, Nathan Ko
 
-Final project for Umass Lowell Mobile Apps 2 Course. 
+Final project for Umass Lowell Mobile Apps 1 Course. 
 
 To run it feel free to clone the directory 
 ```git
