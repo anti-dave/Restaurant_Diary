@@ -1,8 +1,6 @@
 # RestaurantDiary
 by: [Jake Adamson](https://github.com/Jake-The-Human), [Rob Cucchiara](https://github.com/rcucchiara), [Dave Dacosta](https://github.com/anti-dave), [Nathan Ko](https://github.com/nathanko711)
 
-by: Jake Adamson, Dave DaCosta, Rob Cucchiara, Nathan Ko
-
 Final project for Umass Lowell Mobile Apps 1 Course. 
 
 To run it feel free to clone the directory 
