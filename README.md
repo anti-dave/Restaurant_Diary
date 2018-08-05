@@ -1,2 +1,16 @@
 RestaurantDiary
 by: Jake Adamson, Dave DaCosta, Rob Cucchiara, Nathan Ko
+
+Academic project for Umass Lowell Mobile Apps 2 Course. 
+
+To run it feel free to clone the directory 
+```git
+git clone https://github.com/anti-dave/Restaurant_Diary.git
+```
+
+and then import the internal RestaurantDiaryApp in android studio like this 
+Restaurant Diary
+- :file_folder: final_week_12_7
+- :file_folder: progress
+- :file_folder: proposal
+- :file_folder: **RestaurantDiaryApp**
